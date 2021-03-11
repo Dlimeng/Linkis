@@ -133,6 +133,9 @@
         <module>datasource/datasourcemanager/server</module>
         <module>assembly/public-module</module>
         <module>assembly</module>
+        <module>ujes/definedEngines/flink/entrance</module>
+        <module>ujes/definedEngines/flink/engineManager</module>
+        <module>ujes/definedEngines/flink/engine</module>
 
     </modules>
 
