@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component
 
 /**
  *
- * Created by
+ * Created by liangqilang on 2019-11-01 zhuhui@kanzhun.com
  * 
  */
 @Component("engineResourceFactory")

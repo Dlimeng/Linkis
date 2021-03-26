@@ -1,6 +1,5 @@
 package com.webank.wedatasphere.linkis.enginemanager.flink.process;
 
-import com.webank.wedatasphere.linkis.common.conf.CommonVars$;
 import com.webank.wedatasphere.linkis.enginemanager.EngineResource;
 import com.webank.wedatasphere.linkis.enginemanager.conf.EnvConfiguration;
 import com.webank.wedatasphere.linkis.enginemanager.flink.conf.FlinkConfiguration;
@@ -11,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @program: linkis
  * @description: 启动引擎，解决多集群、多版本问题。
- * @author:
+ * @author: hui zhu
  * @create: 2020-07-28 16:43
  */
 public class FlinkEngineProcessBuilder extends JavaProcessEngineBuilder {
@@ -20,9 +19,8 @@ public class FlinkEngineProcessBuilder extends JavaProcessEngineBuilder {
     public void build(EngineResource engineRequest, RequestEngine request) {
         super.build(engineRequest, request);
         this.hadoopConf = StringUtils.isNotEmpty(request.properties().get("hadoop.config.dir"))?request.properties().get("hadoop.config.dir"): EnvConfiguration.HADOOP_CONF_DIR().getValue().toString();
-        CommonVars$.MODULE$.apply("wds.linkis.engine.flink.home", "/opt/flink").getValue();
-        this.flinkConf = StringUtils.isNotEmpty(request.properties().get("flink.config.dir"))?request.properties().get("flink.config.dir"): FlinkConfiguration.FLINK_CONF_DIR.getValue().toString();
-        this.flinkHome = StringUtils.isNotEmpty(request.properties().get("flink.home"))?request.properties().get("flink.home"): FlinkConfiguration.FLINK_HOME.getValue().toString();
+        this.flinkConf = StringUtils.isNotEmpty(request.properties().get("flink.config.dir"))?request.properties().get("flink.config.dir"): EnvConfiguration.FLINK_CONF_DIR().getValue().toString();
+        this.flinkHome = StringUtils.isNotEmpty(request.properties().get("flink.home"))?request.properties().get("flink.home"): EnvConfiguration.FLINK_HOME().getValue().toString();
     }
 
     /**

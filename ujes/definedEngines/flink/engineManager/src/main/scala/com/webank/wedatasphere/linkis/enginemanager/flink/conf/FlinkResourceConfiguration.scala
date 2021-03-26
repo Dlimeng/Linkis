@@ -20,7 +20,7 @@ import com.webank.wedatasphere.linkis.common.conf.{ByteType, CommonVars}
 
 /**
  *
- * Created by
+ * Created by liangqilang on 2019-11-01 zhuhui@kanzhun.com
  * 
  */
 object FlinkResourceConfiguration {

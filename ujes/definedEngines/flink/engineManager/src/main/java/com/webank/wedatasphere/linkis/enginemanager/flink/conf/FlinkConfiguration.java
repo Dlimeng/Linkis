@@ -8,7 +8,7 @@ import com.webank.wedatasphere.linkis.common.conf.Configuration;
 /**
  * @program: linkis
  * @description:
- * @author:
+ * @author: hui zhu
  * @create: 2020-07-28 16:42
  */
 public class FlinkConfiguration {
@@ -23,8 +23,5 @@ public class FlinkConfiguration {
 
     public static final CommonVars FLINK_CLIENT_EXTRACLASSPATH = CommonVars$.MODULE$.apply("flink.engine.extraClassPath","/appcom/commonlib/webank_bdp_udf.jar", "Specify the full path of the user-defined jar package (multiple separated by English)(指定用户自定义的jar包全路径（多个以英文,分隔）。)");
 
-
-    public static final CommonVars<String> FLINK_CONF_DIR  = CommonVars$.MODULE$.apply("wds.linkis.engine.flink.conf.dir", "/opt/flink-1.11.1/conf");
-    public static final CommonVars<String> FLINK_HOME      = CommonVars$.MODULE$.apply("wds.linkis.engine.flink.home", "/opt/flink");
 
 }

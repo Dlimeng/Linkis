@@ -10,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * @program: linkis
  * @description:
- * @author:
+ * @author: hui zhu
  * @create: 2020-08-11 21:18
  */
 public class FlinkCommonProcessEngine extends CommonProcessEngine {
