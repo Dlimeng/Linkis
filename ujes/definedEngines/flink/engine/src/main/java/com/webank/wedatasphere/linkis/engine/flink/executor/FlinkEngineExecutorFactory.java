@@ -9,6 +9,8 @@ import com.webank.wedatasphere.linkis.engine.flink.client.config.Environment;
 import com.webank.wedatasphere.linkis.engine.flink.client.context.DefaultContext;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.session.SessionManager;
 import com.webank.wedatasphere.linkis.engine.flink.conf.FlinkConfiguration;
+import com.webank.wedatasphere.linkis.engine.flink.exception.ExecutorInitException;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlGatewayException;
 import com.webank.wedatasphere.linkis.engine.flink.util.ConfigurationParseUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.flink.configuration.Configuration;
@@ -21,7 +23,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import scala.collection.JavaConversions;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @program: linkis

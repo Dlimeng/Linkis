@@ -10,6 +10,7 @@ import com.webank.wedatasphere.linkis.engine.flink.client.utils.SqlCommandParser
 import com.webank.wedatasphere.linkis.engine.flink.codeparser.FlinkCodeParser;
 import com.webank.wedatasphere.linkis.engine.flink.common.ResultListener;
 import com.webank.wedatasphere.linkis.engine.flink.conf.FlinkConfiguration;
+import com.webank.wedatasphere.linkis.engine.flink.exception.IllegalArgumentException;
 import com.webank.wedatasphere.linkis.engine.flink.exception.SqlParseException;
 import com.webank.wedatasphere.linkis.engine.flink.executor.handler.TaskHandler;
 import com.webank.wedatasphere.linkis.engine.flink.executor.handler.impl.AbstractTaskHandler;
@@ -28,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

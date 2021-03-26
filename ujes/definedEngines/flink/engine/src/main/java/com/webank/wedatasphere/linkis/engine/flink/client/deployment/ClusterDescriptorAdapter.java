@@ -20,6 +20,8 @@ package com.webank.wedatasphere.linkis.engine.flink.client.deployment;
 
 import com.webank.wedatasphere.linkis.engine.flink.client.context.ExecutionContext;
 import com.webank.wedatasphere.linkis.engine.flink.exception.JobExecutionException;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlExecutionException;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlGatewayException;
 
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
@@ -31,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;

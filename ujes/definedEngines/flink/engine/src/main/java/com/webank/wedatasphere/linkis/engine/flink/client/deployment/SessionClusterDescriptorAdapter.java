@@ -25,6 +25,8 @@ import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.client.ClientUtils;
 
+import java.util.Map;
+
 /**
  * Handle job actions based on session mode.
  */

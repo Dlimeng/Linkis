@@ -23,6 +23,7 @@ import com.webank.wedatasphere.linkis.engine.flink.client.deployment.ClusterDesc
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ColumnInfo;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ResultKind;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ResultSet;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlGatewayException;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.JobStatus;
 import org.apache.flink.api.java.tuple.Tuple2;

@@ -19,6 +19,7 @@
 package com.webank.wedatasphere.linkis.engine.flink.client.result;
 
 import com.webank.wedatasphere.linkis.engine.flink.exception.JobExecutionException;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlExecutionException;
 import com.webank.wedatasphere.linkis.engine.flink.exception.SqlGatewayException;
 
 import org.apache.flink.api.common.ExecutionConfig;

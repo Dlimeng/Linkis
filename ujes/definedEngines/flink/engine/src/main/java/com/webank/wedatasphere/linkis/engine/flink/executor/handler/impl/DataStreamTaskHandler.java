@@ -2,6 +2,7 @@ package com.webank.wedatasphere.linkis.engine.flink.executor.handler.impl;
 
 import com.google.common.collect.Lists;
 import com.webank.wedatasphere.linkis.engine.execute.EngineExecutorContext;
+import com.webank.wedatasphere.linkis.engine.flink.client.config.Environment;
 import com.webank.wedatasphere.linkis.engine.flink.client.context.DefaultContext;
 import com.webank.wedatasphere.linkis.engine.flink.client.context.ExecutionContext;
 import com.webank.wedatasphere.linkis.engine.flink.client.deployment.ClusterDescriptorAdapter;
@@ -9,8 +10,10 @@ import com.webank.wedatasphere.linkis.engine.flink.client.deployment.ClusterDesc
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.session.SessionManager;
 import com.webank.wedatasphere.linkis.engine.flink.client.utils.SqlCommandParser;
 import com.webank.wedatasphere.linkis.engine.flink.conf.FlinkConfiguration;
+import com.webank.wedatasphere.linkis.engine.flink.exception.IllegalArgumentException;
 import com.webank.wedatasphere.linkis.engine.flink.exception.JobExecutionException;
 import com.webank.wedatasphere.linkis.engine.flink.executor.FlinkResultListener;
+import com.webank.wedatasphere.linkis.engine.flink.executor.handler.TaskHandler;
 import com.webank.wedatasphere.linkis.engine.flink.util.ConfigurationParseUtils;
 import com.webank.wedatasphere.linkis.scheduler.executer.ExecuteRequest;
 import com.webank.wedatasphere.linkis.scheduler.executer.ExecuteResponse;
@@ -25,6 +28,7 @@ import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.flink.yarn.configuration.YarnDeploymentTarget;
 import org.apache.logging.log4j.util.Strings;
 
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 

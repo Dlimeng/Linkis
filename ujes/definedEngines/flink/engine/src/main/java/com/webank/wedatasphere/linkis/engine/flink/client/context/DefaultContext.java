@@ -21,6 +21,7 @@ package com.webank.wedatasphere.linkis.engine.flink.client.context;
 import com.google.common.collect.Lists;
 import com.webank.wedatasphere.linkis.engine.flink.client.cluster.MultipleYarnClusterClientFactory;
 import com.webank.wedatasphere.linkis.engine.flink.client.config.Environment;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlGatewayException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.flink.annotation.VisibleForTesting;
@@ -39,7 +40,9 @@ import org.apache.commons.cli.Options;
 import org.apache.flink.yarn.configuration.YarnConfigOptions;
 import org.apache.flink.yarn.configuration.YarnConfigOptionsInternal;
 
+import java.io.File;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public interface TaskHandler {
 
-     void initFlinkContext(EngineExecutorContext engineExecutorContext, DefaultContext defaultContext, SessionManager sessionManager, Map<String, String> jobExecuteParams) throws IllegalArgumentException;
+     void initFlinkContext(EngineExecutorContext engineExecutorContext,DefaultContext defaultContext, SessionManager sessionManager,  Map<String, String> jobExecuteParams) throws IllegalArgumentException;
 
      ExecuteResponse execute();
 

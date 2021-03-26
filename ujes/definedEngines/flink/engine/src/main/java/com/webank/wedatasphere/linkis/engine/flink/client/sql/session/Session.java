@@ -26,6 +26,7 @@ import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.Operatio
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.OperationFactory;
 import com.webank.wedatasphere.linkis.engine.flink.client.utils.SqlCommandParser;
 import com.webank.wedatasphere.linkis.engine.flink.client.utils.SqlCommandParser.SqlCommandCall;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlParseException;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ResultSet;
 import com.webank.wedatasphere.linkis.engine.flink.exception.SqlGatewayException;
 

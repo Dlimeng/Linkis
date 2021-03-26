@@ -5,6 +5,8 @@ import com.webank.wedatasphere.linkis.common.io.resultset.ResultSetWriter;
 import com.webank.wedatasphere.linkis.engine.execute.EngineExecutorContext;
 import com.webank.wedatasphere.linkis.engine.flink.client.config.entries.ExecutionEntry;
 import com.webank.wedatasphere.linkis.engine.flink.client.context.DefaultContext;
+import com.webank.wedatasphere.linkis.engine.flink.client.context.ExecutionContext;
+import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ColumnInfo;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ResultKind;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ResultSet;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.session.Session;
@@ -13,6 +15,8 @@ import com.webank.wedatasphere.linkis.engine.flink.client.utils.SqlCommandParser
 import com.webank.wedatasphere.linkis.engine.flink.common.ResultListener;
 import com.webank.wedatasphere.linkis.engine.flink.conf.FlinkConfiguration;
 import com.webank.wedatasphere.linkis.engine.flink.exception.IllegalArgumentException;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlGatewayException;
+import com.webank.wedatasphere.linkis.engine.flink.exception.SqlParseException;
 import com.webank.wedatasphere.linkis.engine.flink.executor.FlinkResultListener;
 import com.webank.wedatasphere.linkis.scheduler.executer.ErrorExecuteResponse;
 import com.webank.wedatasphere.linkis.scheduler.executer.ExecuteResponse;
@@ -37,6 +41,7 @@ import com.webank.wedatasphere.linkis.storage.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.flink.configuration.ConfigOptions.key;
 

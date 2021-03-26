@@ -23,6 +23,7 @@ import com.webank.wedatasphere.linkis.engine.flink.client.context.SessionContext
 import com.webank.wedatasphere.linkis.engine.flink.client.deployment.ClusterDescriptorAdapterFactory;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.AbstractJobOperation;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ColumnInfo;
+import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ConstantNames;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ResultKind;
 import com.webank.wedatasphere.linkis.engine.flink.client.sql.operation.result.ResultSet;
 import com.webank.wedatasphere.linkis.engine.flink.common.ResultListener;
