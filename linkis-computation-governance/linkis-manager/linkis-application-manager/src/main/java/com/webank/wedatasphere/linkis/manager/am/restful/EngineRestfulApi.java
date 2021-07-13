@@ -19,25 +19,25 @@
 package com.webank.wedatasphere.linkis.manager.am.restful;
 
 import com.webank.wedatasphere.linkis.common.ServiceInstance;
+import com.webank.wedatasphere.linkis.common.exception.LinkisRetryException;
 import com.webank.wedatasphere.linkis.manager.am.conf.AMConfiguration;
 import com.webank.wedatasphere.linkis.manager.am.exception.AMErrorCode;
 import com.webank.wedatasphere.linkis.manager.am.exception.AMErrorException;
-import com.webank.wedatasphere.linkis.manager.am.service.engine.EngineInfoService;
+import com.webank.wedatasphere.linkis.manager.am.service.engine.*;
 import com.webank.wedatasphere.linkis.manager.am.utils.AMUtils;
 import com.webank.wedatasphere.linkis.manager.am.vo.AMEngineNodeVo;
-import com.webank.wedatasphere.linkis.manager.am.vo.EMNodeVo;
-import com.webank.wedatasphere.linkis.manager.common.entity.enumeration.NodeHealthy;
 import com.webank.wedatasphere.linkis.manager.common.entity.enumeration.NodeStatus;
-import com.webank.wedatasphere.linkis.manager.common.entity.metrics.NodeHealthyInfo;
 import com.webank.wedatasphere.linkis.manager.common.entity.node.AMEMNode;
 import com.webank.wedatasphere.linkis.manager.common.entity.node.EngineNode;
+import com.webank.wedatasphere.linkis.manager.common.protocol.engine.*;
 import com.webank.wedatasphere.linkis.manager.label.builder.factory.LabelBuilderFactory;
 import com.webank.wedatasphere.linkis.manager.label.builder.factory.LabelBuilderFactoryContext;
-import com.webank.wedatasphere.linkis.manager.label.builder.factory.StdLabelBuilderFactory;
 import com.webank.wedatasphere.linkis.manager.label.entity.Label;
 import com.webank.wedatasphere.linkis.manager.label.entity.UserModifiable;
 import com.webank.wedatasphere.linkis.manager.label.exception.LabelErrorException;
 import com.webank.wedatasphere.linkis.manager.label.service.NodeLabelService;
+import com.webank.wedatasphere.linkis.message.builder.MessageJob;
+import com.webank.wedatasphere.linkis.message.publisher.MessagePublisher;
 import com.webank.wedatasphere.linkis.server.Message;
 import com.webank.wedatasphere.linkis.server.security.SecurityFilter;
 import org.apache.commons.collections.CollectionUtils;
@@ -55,7 +55,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,10 +66,20 @@ import java.util.stream.Collectors;
 public class EngineRestfulApi {
 
     @Autowired
+    private EngineAskEngineService engineAskEngineService;
+    @Autowired
     private EngineInfoService engineInfoService;
-
+    @Autowired
+    private EngineCreateService engineCreateService;
+    @Autowired
+    private EngineReuseService engineReuseService;
+    @Autowired
+    private EngineStopService engineStopService;
+    @Autowired
+    private MessagePublisher messagePublisher;
     @Autowired
     private NodeLabelService nodeLabelService;
+
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -158,6 +167,58 @@ public class EngineRestfulApi {
             logger.info("success to update label of instance: " + serviceInstance.getInstance());
         }
         return Message.messageToResponse(Message.ok("success to update engine information(更新引擎信息成功)"));
+    }
+
+    @POST
+    @Path("/askEngine")
+    public Response askEngine(@Context HttpServletRequest req, Map<String,Object> json) throws IOException {
+        EngineAskRequest engineAskRequest = objectMapper.convertValue(json,EngineAskRequest.class);
+        MessageJob job = messagePublisher.publish(engineAskRequest);
+        Object engins = engineAskEngineService.askEngine(engineAskRequest, job.getMethodContext());
+        if(engins instanceof EngineNode){
+            return Message.messageToResponse(Message.ok().data("engine", engins));
+        }else if(engins instanceof EngineAskAsyncResponse){
+            return Message.messageToResponse(Message.ok().data("engine", engins));
+        }
+        return Message.messageToResponse(Message.ok());
+    }
+
+    @POST
+    @Path("/createEngine")
+    public Response createEngine(@Context HttpServletRequest req, Map<String,Object> json) throws IOException {
+        EngineCreateRequest engineCreateRequest = objectMapper.convertValue(json, EngineCreateRequest.class);
+        MessageJob job = messagePublisher.publish(engineCreateRequest);
+        try {
+            EngineNode engine = engineCreateService.createEngine(engineCreateRequest, job.getMethodContext());
+            return Message.messageToResponse(Message.ok().data("engine", engine));
+        } catch (LinkisRetryException e) {
+            Message message = Message.error(e.getMessage());
+            message.setMethod("/api/linkisManager/createEngine");
+            return  Message.messageToResponse(message);
+        }
+    }
+
+    @POST
+    @Path("/stopEngine")
+    public Response stopEngine(@Context HttpServletRequest req, Map<String,Object> json) throws IOException {
+        EngineStopRequest engineStopRequest = objectMapper.convertValue(json,EngineStopRequest.class);
+        MessageJob job = messagePublisher.publish(engineStopRequest);
+        engineStopService.stopEngine(engineStopRequest,job.getMethodContext());
+        return Message.messageToResponse(Message.ok());
+    }
+
+    @POST
+    @Path("/reuseEngine")
+    public Response reuseEngine(@Context HttpServletRequest req, Map<String,Object> json) throws IOException {
+        EngineReuseRequest engineReuseRequest = objectMapper.convertValue(json,EngineReuseRequest.class);
+        try {
+            EngineNode engine = engineReuseService.reuseEngine(engineReuseRequest);
+            return Message.messageToResponse(Message.ok().data("engine", engine));
+        } catch (LinkisRetryException e) {
+            Message message = Message.error(e.getMessage());
+            message.setMethod("/api/linkisManager/reuseEngine");
+            return  Message.messageToResponse(message);
+        }
     }
 
     @GET
