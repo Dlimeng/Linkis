@@ -36,6 +36,16 @@
             <artifactId>linkis-resource-manager-common</artifactId>
             <version>${linkis.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.webank.wedatasphere.linkis</groupId>
+            <artifactId>linkis-gateway-httpclient-support</artifactId>
+            <version>${linkis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.webank.wedatasphere.linkis</groupId>
+            <artifactId>linkis-manager-common</artifactId>
+            <version>${linkis.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

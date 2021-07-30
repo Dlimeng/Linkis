@@ -18,19 +18,18 @@
 package com.webank.wedatasphere.linkis.manager.am.restful;
 
 import com.webank.wedatasphere.linkis.common.ServiceInstance;
+import com.webank.wedatasphere.linkis.common.exception.LinkisRetryException;
 import com.webank.wedatasphere.linkis.common.utils.ByteTimeUtils;
 import com.webank.wedatasphere.linkis.manager.am.conf.AMConfiguration;
 import com.webank.wedatasphere.linkis.manager.am.exception.AMErrorCode;
 import com.webank.wedatasphere.linkis.manager.am.exception.AMErrorException;
-import com.webank.wedatasphere.linkis.manager.am.service.engine.EngineCreateService;
-import com.webank.wedatasphere.linkis.manager.am.service.engine.EngineInfoService;
+import com.webank.wedatasphere.linkis.manager.am.service.engine.*;
 import com.webank.wedatasphere.linkis.manager.am.utils.AMUtils;
 import com.webank.wedatasphere.linkis.manager.am.vo.AMEngineNodeVo;
 import com.webank.wedatasphere.linkis.manager.common.entity.enumeration.NodeStatus;
 import com.webank.wedatasphere.linkis.manager.common.entity.node.AMEMNode;
 import com.webank.wedatasphere.linkis.manager.common.entity.node.EngineNode;
-import com.webank.wedatasphere.linkis.manager.common.protocol.engine.EngineCreateRequest;
-import com.webank.wedatasphere.linkis.manager.common.protocol.engine.EngineStopRequest;
+import com.webank.wedatasphere.linkis.manager.common.protocol.engine.*;
 import com.webank.wedatasphere.linkis.manager.label.builder.factory.LabelBuilderFactory;
 import com.webank.wedatasphere.linkis.manager.label.builder.factory.LabelBuilderFactoryContext;
 import com.webank.wedatasphere.linkis.manager.label.entity.Label;
@@ -89,6 +88,7 @@ public class EngineRestfulApi {
     private MessagePublisher messagePublisher;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
 
     private LabelBuilderFactory stdLabelBuilderFactory = LabelBuilderFactoryContext.getLabelBuilderFactory();
 
@@ -241,6 +241,76 @@ public class EngineRestfulApi {
         return Message.messageToResponse(Message.ok().data("nodeStatus", nodeStatus));
     }
 
+    @POST
+    @Path("/askEngineConn")
+    public Response askEngine(@Context HttpServletRequest req, JsonNode jsonNode) throws InterruptedException {
+        String userName = SecurityFilter.getLoginUsername(req);
+        EngineAskRequest engineAskRequest = objectMapper.convertValue(jsonNode,EngineAskRequest.class);
+        engineAskRequest.setUser(userName);
+        long timeout = engineAskRequest.getTimeOut();
+        if(timeout <= 0) {
+            timeout = AMConfiguration.ENGINE_CONN_START_REST_MAX_WAIT_TIME().getValue().toLong();
+            engineAskRequest.setTimeOut(timeout);
+        }
+        logger.info("User {} try to ask a engineConn with maxStartTime {}. EngineCreateRequest is {}.", userName,
+                ByteTimeUtils.msDurationToString(timeout), engineAskRequest);
+        MessageJob job = messagePublisher.publish(engineAskRequest);
+        EngineNode engineNode;
+        try {
+            engineNode = (EngineNode) job.get(timeout, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            logger.error(String.format("User %s ask engineConn timeout.", userName), e);
+            job.cancel(true);
+            return Message.messageToResponse(Message
+                    .error("Ask engineConn timeout, usually caused by the too long initialization of EngineConn(创建引擎超时，通常都是因为初始化引擎时间太长导致)."));
+        } catch (ExecutionException e) {
+            logger.error(String.format("User %s ask engineConn failed.", userName), e);
+            return Message.messageToResponse(Message
+                    .error(String.format("Ask engineConn failed, caused by %s.", ExceptionUtils.getRootCauseMessage(e))));
+        }
+        logger.info("Finished to ask a engineConn for user {}. NodeInfo is {}.", userName, engineNode);
+        //to transform to a map
+        Map<String, Object> retEngineNode = new HashMap<>();
+        retEngineNode.put("serviceInstance", engineNode.getServiceInstance());
+        retEngineNode.put("nodeStatus", engineNode.getNodeStatus().toString());
+        return Message.messageToResponse(Message.ok("ask engineConn succeed.").data("engine", retEngineNode));
+    }
+
+    @POST
+    @Path("/reuseEngineConn")
+    public Response reuseEngine(@Context HttpServletRequest req, JsonNode jsonNode) throws InterruptedException {
+        String userName = SecurityFilter.getLoginUsername(req);
+        EngineReuseRequest engineReuseRequest = objectMapper.convertValue(jsonNode,EngineReuseRequest.class);
+        engineReuseRequest.setUser(userName);
+        long timeout = engineReuseRequest.getTimeOut();
+        if(timeout <= 0) {
+            timeout = AMConfiguration.ENGINE_CONN_START_REST_MAX_WAIT_TIME().getValue().toLong();
+            engineReuseRequest.setTimeOut(timeout);
+        }
+        logger.info("User {} try to reuse a engineConn with maxStartTime {}. EngineCreateRequest is {}.", userName,
+                ByteTimeUtils.msDurationToString(timeout), engineReuseRequest);
+        MessageJob job = messagePublisher.publish(engineReuseRequest);
+        EngineNode engineNode;
+        try {
+            engineNode = (EngineNode) job.get(timeout, TimeUnit.MILLISECONDS);
+        } catch (TimeoutException e) {
+            logger.error(String.format("User %s reuse engineConn timeout.", userName), e);
+            job.cancel(true);
+            return Message.messageToResponse(Message
+                    .error("Reuse engineConn timeout, usually caused by the too long initialization of EngineConn(复用引擎超时，通常都是因为初始化引擎时间太长导致)."));
+        } catch (ExecutionException e) {
+            logger.error(String.format("User %s reuse engineConn failed.", userName), e);
+            return Message.messageToResponse(Message
+                    .error(String.format("Reuse engineConn failed, caused by %s.", ExceptionUtils.getRootCauseMessage(e))));
+        }
+        logger.info("Finished to reuse a engineConn for user {}. NodeInfo is {}.", userName, engineNode);
+        //to transform to a map
+        Map<String, Object> retEngineNode = new HashMap<>();
+        retEngineNode.put("serviceInstance", engineNode.getServiceInstance());
+        retEngineNode.put("nodeStatus", engineNode.getNodeStatus().toString());
+        return Message.messageToResponse(Message.ok("reuse engineConn succeed.").data("engine", retEngineNode));
+    }
+
     private boolean isAdmin(String user) {
         String[] adminArray = AMConfiguration.GOVERNANCE_STATION_ADMIN().getValue().split(",");
         return ArrayUtils.contains(adminArray, user);
@@ -257,4 +327,5 @@ public class EngineRestfulApi {
         }
         return ServiceInstance.apply(applicationName,instance);
     }
+
 }
