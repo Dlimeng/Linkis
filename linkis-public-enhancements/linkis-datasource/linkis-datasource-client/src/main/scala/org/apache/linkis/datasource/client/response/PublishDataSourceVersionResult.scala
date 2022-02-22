@@ -20,7 +20,7 @@ package org.apache.linkis.datasource.client.response
 import org.apache.linkis.httpclient.dws.annotation.DWSHttpMessageResult
 import org.apache.linkis.httpclient.dws.response.DWSResult
 
-@DWSHttpMessageResult("/api/rest_j/v\\d+/data-source-manager/publish/(\\S+)/(\\S+)")
+@DWSHttpMessageResult("/api/rest_j/v\\d+/datasourcemanager/publish/(\\S+)/(\\S+)")
 class PublishDataSourceVersionResult extends DWSResult{
 
 }

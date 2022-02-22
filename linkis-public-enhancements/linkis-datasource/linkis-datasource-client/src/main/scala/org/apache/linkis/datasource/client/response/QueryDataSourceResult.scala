@@ -25,7 +25,7 @@ import org.apache.linkis.httpclient.dws.response.DWSResult
 import java.util
 import scala.beans.BeanProperty
 
-@DWSHttpMessageResult("/api/rest_j/v\\d+/data-source-manager/info")
+@DWSHttpMessageResult("/api/rest_j/v\\d+/datasourcemanager/info")
 class QueryDataSourceResult extends DWSResult{
   @BeanProperty var query_list: util.List[java.util.Map[String, Any]] = _
   @BeanProperty var totalPage: Int = _

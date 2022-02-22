@@ -26,7 +26,7 @@ import org.apache.linkis.httpclient.dws.annotation.DWSHttpMessageResult
 
 import scala.beans.BeanProperty
 
-@DWSHttpMessageResult("/api/rest_j/v\\d+/data-source-manager/key_define/type/(\\S+)")
+@DWSHttpMessageResult("/api/rest_j/v\\d+/datasourcemanager/key_define/type/(\\S+)")
 class GetKeyTypeDatasourceResult extends DWSResult{
   @BeanProperty var key_define: util.List[java.util.Map[String, Any]] = _
 

@@ -25,7 +25,7 @@ import org.apache.linkis.httpclient.dws.response.DWSResult
 import java.util
 import scala.beans.BeanProperty
 
-@DWSHttpMessageResult("/api/rest_j/v\\d+/data-source-manager/type/all")
+@DWSHttpMessageResult("/api/rest_j/v\\d+/datasourcemanager/type/all")
 class GetAllDataSourceTypesResult extends DWSResult {
   @BeanProperty var type_list: java.util.List[java.util.Map[String, Any]] = _
 

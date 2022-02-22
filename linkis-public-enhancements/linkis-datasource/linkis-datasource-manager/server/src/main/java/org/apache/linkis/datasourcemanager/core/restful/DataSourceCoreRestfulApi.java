@@ -56,7 +56,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping(
-        value = "/data-source-manager",
+        value = "/datasourcemanager",
         produces = {"application/json"})
 public class DataSourceCoreRestfulApi {
 
