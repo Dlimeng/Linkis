@@ -22,7 +22,7 @@ import org.apache.linkis.httpclient.dws.response.DWSResult
 
 import scala.beans.BeanProperty
 
-@DWSHttpMessageResult("/api/rest_j/v\\d+/datasourcemanager/parameter/(\\S+)/json")
+@DWSHttpMessageResult("/api/rest_j/v\\d+/data-source-manager/parameter/(\\S+)/json")
 class UpdateDataSourceParameterResult extends DWSResult{
   @BeanProperty var version: Long = _
 }

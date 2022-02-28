@@ -26,7 +26,7 @@ import org.apache.linkis.httpclient.dws.annotation.DWSHttpMessageResult
 
 import scala.beans.BeanProperty
 
-@DWSHttpMessageResult("/api/rest_j/v\\d+/datasourcemanager/(\\S+)/versions")
+@DWSHttpMessageResult("/api/rest_j/v\\d+/data-source-manager/(\\S+)/versions")
 class GetDataSourceVersionsResult extends DWSResult{
   @BeanProperty var versions: util.List[java.util.Map[String, Any]] = _
 

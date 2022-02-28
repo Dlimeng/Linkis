@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -12,10 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# description:  cs start cmd
+#
+# Modified for Linkis 1.1.0
+#
 
-wds.linkis.server.mdm.service.instance.expire-in-seconds=1800
-wds.linkis.server.restful.scan.packages=org.apache.linkis.metadatamanager.server.restful
 
-wds.linkis.server.dsm.app.name=linkis-ps-data-source-manager
-##Spring
-spring.server.port=8399
+export SERVER_SUFFIX="linkis-public-enhancements/linkis-ps-data-source-manager"
+
+
+export DEBUG_PORT=10019
+
+export SERVER_CLASS=org.apache.linkis.datasourcemanager.core.LinkisDataSourceManagerApplication
+
+export COMMON_START_BIN=$LINKIS_HOME/sbin/ext/linkis-common-start
+if [[ ! -f "${COMMON_START_BIN}" ]]; then
+    echo "The $COMMON_START_BIN  does not exist!"
+    exit 1
+else
+    sh $COMMON_START_BIN
+fi
