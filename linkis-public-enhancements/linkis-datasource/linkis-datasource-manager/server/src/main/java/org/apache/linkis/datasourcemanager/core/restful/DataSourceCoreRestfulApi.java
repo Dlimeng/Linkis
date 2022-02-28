@@ -188,7 +188,13 @@ public class DataSourceCoreRestfulApi {
         return RestfulApiHelper.doAndResponse(
                 () -> {
                     Map<String, Object> connectParams = (Map) params.get("connectParams");
-                    String comment = params.get("comment").toString();
+                    Object commentObj = params.get("comment");
+                    String comment = "";
+                    if (Objects.isNull(commentObj)) {
+                        comment = "";
+                    } else {
+                        comment = comment.toString();
+                    }
                     String userName = SecurityFilter.getLoginUsername(req);
 
                     DataSource dataSource =
