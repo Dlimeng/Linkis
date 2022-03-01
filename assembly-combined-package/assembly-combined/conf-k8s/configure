@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # linkis.properties
-sed -i "s#\$WDS_LINKIS_GATEWAY_URL#http://${HOSTNAME}:9001#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_GATEWAY_URL#http://${K8S_ENV_LINKIS_GATEWAY_CLUSTER}:9001#" ${LINKIS_CONF_DIR}/linkis.properties
 sed -i "s#\$WDS_LINKIS_EUREKA_DEDAULT_ZONE#${K8S_ENV_EUREKA_ZONE}#" ${LINKIS_CONF_DIR}/linkis.properties
 sed -i "s#\$WDS_LINKIS_DATASOURCE_URL#${K8S_ENV_LINKIS_DB_URL}#" ${LINKIS_CONF_DIR}/linkis.properties
 sed -i "s#\$WDS_LINKIS_DATASOURCE_USERNAME#${K8S_ENV_LINKIS_DB_USERNAME}#" ${LINKIS_CONF_DIR}/linkis.properties
