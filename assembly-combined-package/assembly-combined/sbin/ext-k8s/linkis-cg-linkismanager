@@ -26,7 +26,7 @@ export SERVER_CLASS=org.apache.linkis.manager.am.LinkisManagerApplication
 
 #export DEBUG_PORT=
 
-export COMMON_START_BIN=$LINKIS_HOME/sbin/ext/linkis-common-start
+export COMMON_START_BIN=$LINKIS_HOME/sbin/ext-k8s/linkis-common-start
 if [[ ! -f "${COMMON_START_BIN}" ]]; then
     echo "The $COMMON_START_BIN  does not exist!"
     exit 1
