@@ -16,7 +16,7 @@
 spring:
   application:
     name: linkis-mg-eureka
-  profiles: eureka-k8s
+  profiles: eureka
 
 server:
   port: ${PORT:20303}
