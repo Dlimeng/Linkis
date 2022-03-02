@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -12,29 +13,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# description:  cs start cmd
+#
+# Modified for Linkis 1.1.0
+#
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${K8S_ENV_EUREKA_ZONE}
-  instance:
-    #instance-id: ${spring.cloud.client.ipAddress}:${server.port}
-    preferIpAddress: true
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh,info
-logging:
-  config: classpath:log4j2.xml
+export SERVER_SUFFIX="linkis-public-enhancements/linkis-ps-data-source-manager"
 
-pagehelper:
-  helper-dialect: mysql
-  reasonable: true
-  support-methods-arguments: true
-  params: countSql
 
-#ribbon:
-#  ReadTimeout: 10000
-#  ConnectTimeout: 10000
+export DEBUG_PORT=10019
+
+export SERVER_CLASS=org.apache.linkis.datasourcemanager.core.LinkisDataSourceManagerApplication
+
+export COMMON_START_BIN=$LINKIS_HOME/sbin/ext-k8s/linkis-common-start
+if [[ ! -f "${COMMON_START_BIN}" ]]; then
+    echo "The $COMMON_START_BIN  does not exist!"
+    exit 1
+else
+    sh $COMMON_START_BIN
+fi

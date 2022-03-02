@@ -25,7 +25,8 @@ eureka:
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
     preferIpAddress: false
-    instance-id: ${HOSTNAME}.${POD_NAME}:${server.port}@${random.long(1000000,9999999)}
+    #instance-id: ${HOSTNAME}.${POD_NAME}:${server.port}@${random.long(1000000,9999999)}
+    instance-id: ${HOSTNAME}.${POD_NAME}:${server.port}
     hostname: ${HOSTNAME}.${POD_NAME}
   client:
     service-url:
@@ -36,5 +37,5 @@ eureka:
   server:
     response-cache-update-interval-ms: 2000
     eviction-interval-timer-in-ms: 5000
-    enable-self-preservation: false
+    enable-self-preservation: true
     use-read-only-response-cache: false
