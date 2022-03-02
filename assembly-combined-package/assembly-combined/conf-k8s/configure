@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# linkis.properties
+sed -i "s#\$WDS_LINKIS_GATEWAY_URL#http://${K8S_ENV_LINKIS_GATEWAY_CLUSTER}:9001#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_EUREKA_DEDAULT_ZONE#${K8S_ENV_EUREKA_ZONE}#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_DATASOURCE_URL#${K8S_ENV_LINKIS_DB_URL}#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_DATASOURCE_USERNAME#${K8S_ENV_LINKIS_DB_USERNAME}#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_DATASOURCE_PASSWORD#${K8S_ENV_LINKIS_DB_PASSWORD}#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_HADOOP_CONFIG_DIR#${K8S_ENV_HADOOP_CONF_DIR}#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_HIVE_CONFIG_DIR#${K8S_ENV_HIVE_CONF_DIR}#" ${LINKIS_CONF_DIR}/linkis.properties
+sed -i "s#\$WDS_LINKIS_SPARK_CONFIG_DIR#${K8S_ENV_SPARK_CONF_DIR}#" ${LINKIS_CONF_DIR}/linkis.properties
+
+# linkis-ps-data-source-manager.properties
+sed -i "s#\$WDS_LINKIS_HIVE_META_URL#${K8S_ENV_HIVE_META_URL}#" ${LINKIS_CONF_DIR}/linkis-ps-data-source-manager.properties
+sed -i "s#\$WDS_LINKIS_HIVE_META_USER#${K8S_ENV_HIVE_META_USER}#" ${LINKIS_CONF_DIR}/linkis-ps-data-source-manager.properties
+sed -i "s#\$WDS_LINKIS_HIVE_META_PASSWORD#${K8S_ENV_HIVE_META_PASSWORD}#" ${LINKIS_CONF_DIR}/linkis-ps-data-source-manager.properties
+
+# linkis-ps-publicservice.properties
+sed -i "s#\$WDS_LINKIS_HIVE_META_URL#${K8S_ENV_HIVE_META_URL}#" ${LINKIS_CONF_DIR}/linkis-ps-publicservice.properties
+sed -i "s#\$WDS_LINKIS_HIVE_META_USER#${K8S_ENV_HIVE_META_USER}#" ${LINKIS_CONF_DIR}/linkis-ps-publicservice.properties
+sed -i "s#\$WDS_LINKIS_HIVE_META_PASSWORD#${K8S_ENV_HIVE_META_PASSWORD}#" ${LINKIS_CONF_DIR}/linkis-ps-publicservice.properties
