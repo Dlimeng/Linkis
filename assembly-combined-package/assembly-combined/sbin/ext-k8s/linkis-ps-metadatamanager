@@ -7,7 +7,7 @@
 
 export SERVER_SUFFIX="linkis-public-enhancements/linkis-ps-metadatamanager"
 
-export DEBUG_PORT=5006
+#export DEBUG_PORT=5006
 
 export SERVER_CLASS=org.apache.linkis.metadatamanager.server.LinkisMetadataManagerApplication
 

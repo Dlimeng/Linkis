@@ -22,7 +22,7 @@
 export SERVER_SUFFIX="linkis-public-enhancements/linkis-ps-data-source-manager"
 
 
-export DEBUG_PORT=10019
+#export DEBUG_PORT=10019
 
 export SERVER_CLASS=org.apache.linkis.datasourcemanager.core.LinkisDataSourceManagerApplication
 
