@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: linkis-runtime-env
+  namespace: linkis
+data:
+  K8S_ENV_EUREKA_ZONE: "http://linkis-mg-eureka-0.linkis-mg-eureka:20303/eureka/,http://linkis-mg-eureka-1.linkis-mg-eureka:20303/eureka/"
+  K8S_ENV_HADOOP_CONF_DIR: "/usr/local/hadoop-2.7.2/etc/hadoop"
+  K8S_ENV_HIVE_CONF_DIR: "/usr/local/apache-hive-2.3.3-bin/conf"
+  K8S_ENV_HIVE_META_PASSWORD: "pwd@1234"
+  K8S_ENV_HIVE_META_URL: "jdbc:mysql://192.168.0.10:3306/hive-metastore?useSSL=false"
+  K8S_ENV_HIVE_META_USER: "root"
+  K8S_ENV_LINKIS_DB_PASSWORD: "pwd@1234"
+  K8S_ENV_LINKIS_DB_URL: "jdbc:mysql://192.168.0.10:3306/linkis?characterEncoding=UTF-8"
+  K8S_ENV_LINKIS_DB_USERNAME: "root"
+  K8S_ENV_LINKIS_GATEWAY_CLUSTER: "linkis-mg-gatewayt-cluster"
+  K8S_ENV_SPARK_CONF_DIR: "/usr/local/spark-2.4.3-bin-hadoop2.7/conf"
+  K8S_ENV_YARN_RESTFUL_URL: "http://192.168.0.10:8088,http://192.168.0.11:8088"

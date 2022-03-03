@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: linkis-nfs-pv
+spec:
+  capacity:
+    storage: 50Gi
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /var/lib/nfs/linkis
+    server: 192.168.0.15
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linkis-nfs-static-pvc
+  namespace: linkis
+  labels:
+    name: linkis-nfs-static-pvc
+    storetype: nfs
+    capacity: 50Gi
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi

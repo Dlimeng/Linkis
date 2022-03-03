@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: linkis
+
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: linkis-nfs
