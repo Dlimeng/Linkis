@@ -31,6 +31,12 @@ function print_usage(){
   echo "Most commands print help when invoked w/o parameters."
 }
 
+_CMD0=$1
+if [ "freeshell" = "$_CMD0" ]; then
+  /usr/sbin/init
+  exit 0
+fi
+
 if [ $# != 2 ]; then
   print_usage
   exit 2
