@@ -91,7 +91,7 @@ PYTHON_VERSION=python2
 #EUREKA_INSTALL_IP=127.0.0.1         # Microservices Service Registration Discovery Center
 EUREKA_INSTALL_IP=linkis-mg-eureka
 EUREKA_PORT=20303
-export EUREKA_PREFER_IP=false
+export EUREKA_PREFER_IP=true
 
 ###  Gateway install information
 GATEWAY_INSTALL_IP=$HOSTNAME

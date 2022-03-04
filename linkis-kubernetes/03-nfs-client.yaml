@@ -1,0 +1,139 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: linkis-nfs-storage
+provisioner: linkis-nfs-subdir-external-provisioner
+parameters:
+  onDelete: "retain"
+  archiveOnDelete: "false"
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: linkis-nfs
+  namespace: linkis-nfs
+
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: linkis-nfs
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch"]
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: linkis-nfs-provisioner
+subjects:
+  - kind: ServiceAccount
+    name: linkis-nfs
+    namespace: linkis-nfs
+roleRef:
+  kind: ClusterRole
+  name: linkis-nfs
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: linkis-nfs
+  namespace: linkis-nfs
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: linkis-nfs
+  namespace: linkis-nfs
+subjects:
+  - kind: ServiceAccount
+    name: linkis-nfs
+    namespace: linkis-nfs
+roleRef:
+  kind: Role
+  name: linkis-nfs
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkis-nfs
+  labels:
+    app: linkis-nfs
+  namespace: linkis-nfs
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: linkis-nfs
+  template:
+    metadata:
+      labels:
+        app: linkis-nfs
+    spec:
+      serviceAccountName: linkis-nfs
+      imagePullSecrets:
+        - name: linkis-harbor-token
+      containers:
+        - name: linkis-nfs-client-provisioner
+          image: harbor.shineweng.tech/linkis/nfs-subdir-external-provisioner:v4.0.2
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: linkis-nfs-subdir-external-provisioner
+            - name: NFS_SERVER
+              value: 192.168.0.15
+            - name: NFS_PATH
+              value: /var/lib/nfs/linkis
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: 192.168.0.15
+            path: /var/lib/nfs/linkis
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: linkis-nfs-pvc
+  namespace: linkis
+spec:
+  storageClassName: linkis-nfs-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+
+

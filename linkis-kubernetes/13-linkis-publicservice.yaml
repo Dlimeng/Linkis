@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkis-ps-publicservice
+  namespace: linkis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linkis-ps-publicservice
+  template:
+    metadata:
+      labels:
+        app: linkis-ps-publicservice
+    spec:
+      imagePullSecrets:
+      - name: linkis-harbor-token 
+      containers:
+      - name: linkis-ps-publicservice
+        image: harbor.shineweng.tech/linkis/linkis:1.0.3
+        args: ["start", "ps-publicservice"]
+        envFrom:
+        - configMapRef:
+            name: linkis-runtime-env
+        env:
+        - name: POD_NAME
+          value: linkis-ps-publicservice
+        ports:
+        - containerPort: 9105
+        volumeMounts:
+          - name: pvc
+            mountPath : "/opt/linkis/appcom/tmp"
+          - name: hadoop-config
+            mountPath: "/usr/local/hadoop-2.7.2/etc/hadoop"
+          - name: hive-config
+            mountPath: "/usr/local/apache-hive-2.3.3-bin/conf"
+          - name: spark-config
+            mountPath: "/usr/local/spark-2.4.3-bin-hadoop2.7/conf"
+      volumes:
+        - name: pvc
+          persistentVolumeClaim:
+            claimName: linkis-nfs-static-pvc
+        - name: hadoop-config
+          configMap:
+            name: hadoop-config
+        - name: hive-config
+          configMap:
+            name: hive-config
+        - name: spark-config
+          configMap:
+            name: spark-config

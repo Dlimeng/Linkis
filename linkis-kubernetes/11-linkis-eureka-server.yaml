@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: linkis-mg-eureka
+  namespace: linkis
+  labels:
+    app: linkis-mg-eureka
+spec:
+  type: NodePort
+  ports:
+    - port: 20303
+      name: linkis-mg-eureka
+      targetPort: 20303
+      nodePort: 30303
+  selector:
+    app: linkis-mg-eureka
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: linkis-mg-eureka
+  namespace: linkis
+spec:
+  serviceName: "linkis-mg-eureka"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: linkis-mg-eureka
+  template:
+    metadata:
+      labels:
+        app: linkis-mg-eureka
+    spec:
+      imagePullSecrets:
+      - name: linkis-harbor-token
+      containers:
+      - name: linkis-mg-eureka
+        image: harbor.shineweng.tech/linkis/linkis:1.0.3
+        args: ["start", "mg-eureka"]
+        envFrom:
+        - configMapRef:
+            name: linkis-runtime-env
+        env:
+        - name: POD_NAME
+          value: linkis-mg-eureka
+        ports:
+        - containerPort: 20303
+  podManagementPolicy: "Parallel"
