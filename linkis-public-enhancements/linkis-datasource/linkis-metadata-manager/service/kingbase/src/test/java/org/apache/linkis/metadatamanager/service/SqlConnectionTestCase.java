@@ -20,7 +20,7 @@ public class SqlConnectionTestCase {
     public void test02() throws SQLException, ClassNotFoundException {
 //        SqlConnection connection = new SqlConnection("192.168.0.133", 54321, "system", "123456", "test", new HashMap<>());
         SqlConnection connection = new SqlConnection("192.168.0.71", 54321, "TESTUSER", "test!0819", "my_db", new HashMap<>());
-        List<String> allTables = connection.getAllTables("public");
+        List<String> allTables = connection.getAllTables("SYS_CATALOG");
         System.out.println(allTables);
     }
 

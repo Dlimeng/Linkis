@@ -42,21 +42,21 @@ public class SqlConnection implements Closeable {
     }
 
     public List<String> getAllDatabases() throws SQLException {
-//        java.util.List<java.lang.String> dataBaseName = new ArrayList<>();
-//        Statement stmt = null;
-//        ResultSet rs = null;
-//        try{
-//            stmt = conn.createStatement();
-////            rs = stmt.executeQuery("select * from v$database");
-//            rs = stmt.executeQuery("select * from v$tablespace");
-//            while (rs.next()){
-//                dataBaseName.add(rs.getString("name"));
-//            }
-//        } finally {
-//            closeResource(null, stmt, rs);
-//        }
-//        return dataBaseName;
-        throw new UnsupportedOperationException("oracle数据库不能像mysql show databases来获取，应该是存在某个地方来获取的");
+        java.util.List<java.lang.String> dataBaseName = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try{
+            stmt = conn.createStatement();
+//            rs = stmt.executeQuery("select * from v$database");
+            rs = stmt.executeQuery("select username from sys.dba_users WHERE default_tablespace not in ('SYSTEM','SYSAUX') and ACCOUNT_STATUS = 'OPEN'\n");
+            while (rs.next()){
+                dataBaseName.add(rs.getString("username"));
+            }
+        } finally {
+            closeResource(null, stmt, rs);
+        }
+        return dataBaseName;
+//        throw new UnsupportedOperationException("oracle数据库不能像mysql show databases来获取，应该是存在某个地方来获取的");
     }
 
     public List<String> getAllTables(String schemaname) throws SQLException {

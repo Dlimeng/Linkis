@@ -39,20 +39,20 @@ public class SqlConnection implements Closeable {
     }
 
     public List<String> getAllDatabases() throws SQLException {
-//        java.util.List<java.lang.String> dataBaseName = new ArrayList<>();
-//        Statement stmt = null;
-//        ResultSet rs = null;
-//        try{
-//            stmt = conn.createStatement();
-//            rs = stmt.executeQuery("SHOW DATABASES");
-//            while (rs.next()){
-//                dataBaseName.add(rs.getString(1));
-//            }
-//        } finally {
-//            closeResource(null, stmt, rs);
-//        }
-//        return dataBaseName;
-        throw new UnsupportedOperationException("kingbase数据库不能像mysql show databases来获取，应该是存在某个地方来获取的");
+        java.util.List<java.lang.String> dataBaseName = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select schema_name from information_schema.schemata");
+            while (rs.next()){
+                dataBaseName.add(rs.getString(1));
+            }
+        } finally {
+            closeResource(null, stmt, rs);
+        }
+        return dataBaseName;
+//        throw new UnsupportedOperationException("kingbase数据库不能像mysql show databases来获取，应该是存在某个地方来获取的");
     }
 
     public List<String> getAllTables(String schema) throws SQLException {
