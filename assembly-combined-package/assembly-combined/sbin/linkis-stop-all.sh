@@ -86,6 +86,16 @@ SERVER_NAME="ps-publicservice"
 SERVER_IP=$PUBLICSERVICE_INSTALL_IP
 stopApp
 
+#publicenhancements
+SERVER_NAME="ps-publicservice"
+SERVER_IP=$PUBLICSERVICE_INSTALL_IP
+stopApp
+
+#ps-data-source-manager
+SERVER_NAME="ps-data-source-manager"
+SERVER_IP=$DATA-SOURCE-MANAGER_INSTALL_IP
+stopApp
+
 #manager
 SERVER_NAME="cg-linkismanager"
 SERVER_IP=$MANAGER_INSTALL_IP

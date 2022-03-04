@@ -74,8 +74,15 @@ SERVER_NAME="ps-publicservice"
 SERVER_IP=$PUBLICSERVICE_INSTALL_IP
 startApp
 
+#ps-data-source-manager
+SERVER_NAME="ps-data-source-manager"
+SERVER_IP=$DATA-SOURCE-MANAGER_INSTALL_IP
+startApp
 
-
+#metadatamanager
+SERVER_NAME="ps-metadatamanager"
+SERVER_IP=$METADATAMANAGER_INSTALL_IP
+startApp
 
 #manager
 SERVER_NAME="cg-linkismanager"
@@ -150,6 +157,16 @@ checkServer
 #publicenhancements
 SERVER_NAME="ps-publicservice"
 SERVER_IP=$PUBLICSERVICE_INSTALL_IP
+checkServer
+
+#ps-data-source-manager
+SERVER_NAME="ps-data-source-manager"
+SERVER_IP=$DATA-SOURCE-MANAGER_INSTALL_IP
+checkServer
+
+#metadatamanager
+SERVER_NAME="ps-metadatamanager"
+SERVER_IP=$METADATAMANAGER_INSTALL_IP
 checkServer
 
 #cs-server

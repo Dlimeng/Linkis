@@ -122,6 +122,14 @@ PUBLICSERVICE_PORT=9105
 #CS_INSTALL_IP=127.0.0.1
 CS_PORT=9108
 
+### DATA-SOURCE-MANAGER
+#DATA-SOURCE-MANAGER_INSTALL_IP=127.0.0.1
+DATASOURCEMANAGER_PORT=9106
+
+### metadatamanager
+#METADATAMANAGER_INSTALL_IP=127.0.0.1
+METADATAMANAGER_PORT=9107
+
 ########################################################################################
 
 ## LDAP is for enterprise authorization, if you just want to have a try, ignore it.

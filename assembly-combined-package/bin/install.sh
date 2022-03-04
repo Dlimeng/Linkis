@@ -408,6 +408,17 @@ then
   sed -i ${txt}  "s#spring.server.port.*#spring.server.port=$CS_PORT#g" $cs_conf
 fi
 
+datasourcemanager_conf=$LINKIS_HOME/conf/linkis-ps-data-source-manager.properties
+if [ "$DATASOURCEMANAGER_PORT" != "" ]
+then
+  sed -i ${txt}  "s#spring.server.port.*#spring.server.port=$DATASOURCEMANAGER_PORT#g" $datasourcemanager_conf
+fi
+
+metadatamanager_conf=$LINKIS_HOME/conf/linkis-ps-metadatamanager.properties
+if [ "$METADATAMANAGER_PORT" != "" ]
+then
+  sed -i ${txt}  "s#spring.server.port.*#spring.server.port=$METADATAMANAGER_PORT#g" $metadatamanager_conf
+fi
 
 echo "Congratulations! You have installed Linkis $LINKIS_VERSION successfully, please use sh $LINKIS_HOME/sbin/linkis-start-all.sh to start it!"
 echo "Your default account password is$deployUser/$defaultPwd"
