@@ -516,4 +516,16 @@
             </plugins>
         </pluginManagement>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>nexus-deploy</id>
+            <name>Internal Releases</name>
+            <url>http://repo.shineweng.tech/repository/3rd.party/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-deploy</id>
+            <name>Internal Snapshot</name>
+            <url>http://repo.shineweng.tech/repository/3rd.party/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
