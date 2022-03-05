@@ -51,7 +51,7 @@
 
         <fileSet>
             <directory>
-                conf/
+                conf-k8s/
             </directory>
             <outputDirectory>conf-k8s</outputDirectory>
             <includes>
