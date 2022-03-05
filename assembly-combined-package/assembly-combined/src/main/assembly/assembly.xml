@@ -374,6 +374,52 @@
             </includes>
         </fileSet>
 
+        <fileSet>
+            <directory>../../linkis-public-enhancements/linkis-datasource/linkis-metadata-manager/service/elasticsearch/target/out/lib</directory>
+            <fileMode>0755</fileMode>
+            <outputDirectory>lib/linkis-public-enhancements/linkis-ps-metadatamanager/service/elasticsearch</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <exclude>*-javadoc.jar</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>../../linkis-public-enhancements/linkis-datasource/linkis-metadata-manager/service/hive/target/out/lib</directory>
+            <fileMode>0755</fileMode>
+            <outputDirectory>lib/linkis-public-enhancements/linkis-ps-metadatamanager/service/hive</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <exclude>*-javadoc.jar</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>../../linkis-public-enhancements/linkis-datasource/linkis-metadata-manager/service/kafka/target/out/lib</directory>
+            <fileMode>0755</fileMode>
+            <outputDirectory>lib/linkis-public-enhancements/linkis-ps-metadatamanager/service/kafka</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <exclude>*-javadoc.jar</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>../../linkis-public-enhancements/linkis-datasource/linkis-metadata-manager/service/mysql/target/out/lib</directory>
+            <fileMode>0755</fileMode>
+            <outputDirectory>lib/linkis-public-enhancements/linkis-ps-metadatamanager/service/mysql</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <excludes>
+                <exclude>*-javadoc.jar</exclude>
+            </excludes>
+        </fileSet>
+
+
     </fileSets>
 
     <dependencySets>
