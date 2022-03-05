@@ -10,6 +10,13 @@ import java.util.List;
 public class SqlConnectionTc {
 
     @Test
+    public void test01() throws SQLException, ClassNotFoundException {
+        SqlConnection connection = new SqlConnection("192.168.0.17", 5236, "SYSDBA", "SYSDBA", "DMSERVER", new HashMap<>());
+        List<String> allTables = connection.getAllDatabases();
+        System.out.println(allTables);
+    }
+
+    @Test
     public void test02() throws SQLException, ClassNotFoundException {
         SqlConnection connection = new SqlConnection("192.168.0.17", 5236, "SYSDBA", "SYSDBA", "DMSERVER", new HashMap<>());
         List<String> allTables = connection.getAllTables("GJTEST");
