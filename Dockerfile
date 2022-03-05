@@ -8,8 +8,9 @@ ENV LINKIS_HOME=/opt/linkis
 
 COPY --from=linkis /opt/linkis/linkis-package /opt/linkis
 
-COPY docker/mysql-connector-java-5.1.49.jar /opt/linkis/lib/linkis-commons/public-module/
-COPY docker/mysql-connector-java-5.1.49.jar /opt/linkis/lib/linkis-spring-cloud-services/linkis-mg-gateway/
+COPY docker/mysql-connector-java-5.1.49.jar  /opt/linkis/lib/linkis-commons/public-module/
+COPY docker/mysql-connector-java-5.1.49.jar  /opt/linkis/lib/linkis-spring-cloud-services/linkis-mg-gateway/
+COPY docker/dss-gateway-support-1.0.1.jar    /opt/linkis/lib/linkis-spring-cloud-services/linkis-mg-gateway/
 
 WORKDIR /opt/linkis
 
