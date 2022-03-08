@@ -327,9 +327,8 @@ INSERT INTO `linkis_datasource_type` VALUES
 INSERT INTO `linkis_datasource_type_key` VALUES
 (1,1,'host','Host',NULL,'TEXT',NULL,1,'mysql Host ',NULL,NULL,NULL,NULL,'2021-04-08 03:13:36','2021-04-08 03:13:36'),
 (2,1,'port','端口',NULL,'TEXT',NULL,1,'端口',NULL,NULL,NULL,NULL,'2021-04-17 03:10:28','2021-04-17 03:10:28'),
-(3,1,'params','连接参数',NULL,'TEXT',NULL,0,'输入JSON格式: {\"param\":\"value\"}',NULL,NULL,NULL,NULL,'2021-12-06 10:35:00','2021-12-06 10:35:00'),
-(9,1,'username','用户名',NULL,'TEXT',NULL,1,'用户名','^[0-9A-Za-z_-]+$',NULL,NULL,NULL,'2021-04-12 01:54:39','2021-04-12 01:54:39'),
-(10,1,'password','密码',NULL,'PASSWORD',NULL,1,'密码','',NULL,NULL,NULL,'2021-04-12 01:54:39','2021-04-12 01:54:39'),
+(3,1,'username','用户名',NULL,'TEXT',NULL,1,'用户名','^[A-Za-z]+$',NULL,NULL,NULL,'2021-04-12 01:54:39','2021-04-12 01:54:39'),
+(4,1,'password','密码',NULL,'PASSWORD',NULL,1,'密码','^[a-zA-Z0-9_@]{6,16}$',NULL,NULL,NULL,'2021-04-12 01:54:39','2021-04-12 01:54:39'),
 (11,4,'envId','集群环境',NULL,'SELECT',NULL,1,'集群环境',NULL,NULL,NULL,'/api/rest_j/v1/data-source-manager/env_list/all/type/4','2021-05-12 03:03:34','2021-05-12 03:03:34');
 
 INSERT INTO `linkis_datasource_env` VALUES
