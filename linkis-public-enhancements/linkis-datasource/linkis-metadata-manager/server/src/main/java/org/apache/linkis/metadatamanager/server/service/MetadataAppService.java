@@ -90,7 +90,7 @@ public interface MetadataAppService {
      * @return
      */
     MetaPartitionInfo getPartitionsByDsId(
-            String dataSourceId, String database, String table, String system, String userName)
+            String dataSourceId, String database, String table, String system, String userName, boolean traverse)
             throws ErrorException;
 
     /**

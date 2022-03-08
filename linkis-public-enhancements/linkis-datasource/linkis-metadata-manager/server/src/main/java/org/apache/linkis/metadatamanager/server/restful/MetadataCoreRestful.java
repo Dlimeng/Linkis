@@ -190,10 +190,14 @@ public class MetadataCoreRestful {
             @PathVariable("database") String database,
             @PathVariable("table") String table,
             @RequestParam("system") String system,
+            @RequestParam("traverse") Boolean traverse,
             HttpServletRequest request) {
         try {
             if (StringUtils.isBlank(system)) {
                 return Message.error("'system' is missing[缺少系统名]");
+            }
+            if(traverse == null){
+                traverse = false;
             }
             MetaPartitionInfo partitionInfo =
                     metadataAppService.getPartitionsByDsId(
@@ -201,7 +205,7 @@ public class MetadataCoreRestful {
                             database,
                             table,
                             system,
-                            SecurityFilter.getLoginUsername(request));
+                            SecurityFilter.getLoginUsername(request),traverse);
             return Message.ok().data("props", partitionInfo);
         } catch (Exception e) {
             return errorToResponseMessage(
