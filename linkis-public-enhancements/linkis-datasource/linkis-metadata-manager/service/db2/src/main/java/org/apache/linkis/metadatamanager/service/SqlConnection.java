@@ -41,6 +41,7 @@ public class SqlConnection implements Closeable {
     }
 
     public List<String> getAllDatabases() throws SQLException {
+        // db2 "select schemaname from syscat.schemata"
         throw new UnsupportedOperationException("db2 数据库不能像mysql show databases来获取，应该是存在某个地方来获取的");
 //        java.util.List<java.lang.String> dataBaseName = new ArrayList<>();
 //        Statement stmt = null;
