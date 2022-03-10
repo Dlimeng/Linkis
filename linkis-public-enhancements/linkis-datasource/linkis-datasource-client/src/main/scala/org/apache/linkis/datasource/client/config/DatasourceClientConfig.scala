@@ -24,4 +24,6 @@ object DatasourceClientConfig {
 
   var DATA_SOURCE_SERVICE_MODULE: CommonVars[String] = CommonVars.apply("wds.linkis.server.dsm.module.name", "data-source-manager")
 
+  var LINKIS_METADATA_SERVICE_MODULE: CommonVars[String] = CommonVars.apply("wds.linkis.server.metadata.module.name", "datasource")
+
 }

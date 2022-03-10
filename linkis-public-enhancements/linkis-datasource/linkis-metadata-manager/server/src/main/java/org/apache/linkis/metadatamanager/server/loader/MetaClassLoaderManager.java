@@ -17,15 +17,14 @@
 
 package org.apache.linkis.metadatamanager.server.loader;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.linkis.common.conf.CommonVars;
+import org.apache.linkis.common.conf.Configuration;
 import org.apache.linkis.common.exception.ErrorException;
 import org.apache.linkis.metadatamanager.common.exception.MetaRuntimeException;
 import org.apache.linkis.metadatamanager.common.service.AbstractMetaService;
 import org.apache.linkis.metadatamanager.common.service.MetadataService;
 import org.apache.linkis.metadatamanager.server.utils.MetadataUtils;
-
-import org.apache.commons.lang.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +50,8 @@ public class MetaClassLoaderManager {
     public static CommonVars<String> LIB_DIR =
             CommonVars.apply(
                     "wds.linkis.server.mdm.service.lib.dir",
-                    "/lib/linkis-pulicxxxx-/linkis-metdata-manager/service");
-
+                    Configuration.getLinkisHome()
+                            + "/lib/linkis-public-enhancements/linkis-ps-metadatamanager/service");
     public static CommonVars<Integer> INSTANCE_EXPIRE_TIME =
             CommonVars.apply("wds.linkis.server.mdm.service.instance.expire-in-seconds", 60);
 
@@ -85,22 +84,20 @@ public class MetaClassLoaderManager {
                                         && !Objects.equals(finalServiceInstance1, instance)) {
                                     return instance;
                                 }
+                                String lib = LIB_DIR.getValue();
+                                String stdLib = lib.endsWith("/") ? lib.replaceAll(".$", "") : lib;
+                                String componentLib = stdLib + "/" + dsType;
                                 LOG.info(
                                         "Start to load/reload meta instance of data source type: ["
                                                 + dsType
-                                                + "]");
+                                                + "] from library dir:"
+                                                + componentLib);
                                 ClassLoader parentClassLoader =
                                         MetaClassLoaderManager.class.getClassLoader();
                                 ClassLoader metaClassLoader =
                                         classLoaders.compute(
                                                 dsType,
                                                 (type, classLoader) -> {
-                                                    String lib = LIB_DIR.getValue();
-                                                    String stdLib =
-                                                            lib.endsWith("/")
-                                                                    ? lib.replaceAll(".$", "")
-                                                                    : lib;
-                                                    String componentLib = stdLib + "/" + dsType;
                                                     try {
                                                         return new URLClassLoader(
                                                                 getJarsUrlsOfPath(componentLib)

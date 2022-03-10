@@ -1,0 +1,9 @@
+package org.apache.linkis.datasource.client
+
+import org.apache.linkis.datasource.client.request.{GetMetadataSourceAllDatabasesAction, GetMetadataSourceAllSizeAction}
+import org.apache.linkis.datasource.client.response.{GetMetadataSourceAllDatabasesResult, GetMetadataSourceAllSizeResult}
+
+trait MetadataSourceRemoteClient extends RemoteClient{
+  def getAllDBMetaDataSource(action:GetMetadataSourceAllDatabasesAction):GetMetadataSourceAllDatabasesResult
+  def getAllSizeMetaDataSource(action:GetMetadataSourceAllSizeAction):GetMetadataSourceAllSizeResult
+}

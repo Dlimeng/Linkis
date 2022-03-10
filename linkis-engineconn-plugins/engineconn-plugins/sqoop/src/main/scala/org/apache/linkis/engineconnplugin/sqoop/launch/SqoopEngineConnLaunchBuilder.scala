@@ -33,8 +33,7 @@ import java.nio.file.Paths
 import scala.collection.JavaConversions._
 
 class SqoopEngineConnLaunchBuilder extends JavaProcessEngineConnLaunchBuilder{
-/*  override protected def ifAddHadoopClassPath: Boolean = true
-  override protected def ifAddHbaseClassPath: Boolean = true*/
+
   override protected def getBmlResources(implicit engineConnBuildRequest: EngineConnBuildRequest): util.List[BmlResource] = {
     val filterList: List[String] = List( "lib2.zip",
       "conf.zip",

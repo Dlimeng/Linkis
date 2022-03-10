@@ -190,7 +190,7 @@ public class MetadataCoreRestful {
             @PathVariable("database") String database,
             @PathVariable("table") String table,
             @RequestParam("system") String system,
-            @RequestParam("traverse") Boolean traverse,
+            @RequestParam(value = "traverse",required = false) Boolean traverse,
             HttpServletRequest request) {
         try {
             if (StringUtils.isBlank(system)) {
