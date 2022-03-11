@@ -19,6 +19,8 @@ package org.apache.linkis.metadata.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.util.Map;
+
 public interface DataSourceService {
 
     JsonNode getDbs(String userName) throws Exception;
@@ -34,4 +36,6 @@ public interface DataSourceService {
     JsonNode getPartitionSize(String dbName, String tableName, String partitionName, String userName);
 
     JsonNode getPartitions(String dbName, String tableName, String userName);
+
+    Map<String,Object> getAllTableSize(String dbName, String tableName, String userName);
 }
