@@ -145,7 +145,7 @@ public class HiveMetaService extends AbstractMetaService<HiveConnection> {
 
     @Override
     public MetaPartitionInfo queryPartitions(
-            HiveConnection connection, String database, String table, boolean traverse) {
+            HiveConnection connection, String database, String table, Boolean traverse) {
         List<Partition> partitions;
         Table rawTable;
         try {

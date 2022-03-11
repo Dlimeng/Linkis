@@ -65,7 +65,7 @@ public interface MetadataDbService extends BaseMetadataService {
             Map<String, Object> params,
             String database,
             String table,
-            boolean traverse);
+            Boolean traverse);
 
     /**
      * Get partition properties

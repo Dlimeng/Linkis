@@ -104,7 +104,7 @@ public abstract class AbstractMetaService<C extends Closeable> implements Metada
             Map<String, Object> params,
             String database,
             String table,
-            boolean traverse) {
+            Boolean traverse) {
         return this.getConnAndRun(
                 operator, params, conn -> this.queryPartitions(conn, database, table, traverse));
     }
@@ -159,7 +159,7 @@ public abstract class AbstractMetaService<C extends Closeable> implements Metada
      * @return
      */
     public MetaPartitionInfo queryPartitions(
-            C connection, String database, String table, boolean traverse) {
+            C connection, String database, String table, Boolean traverse) {
         throw new WarnException(-1, "This method is no supported");
     }
 
