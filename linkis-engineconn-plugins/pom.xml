@@ -45,6 +45,7 @@
         <module>engineconn-plugins/jdbc</module>
         <module>engineconn-plugins/flink</module>
         <module>engineconn-plugins/sqoop</module>
+        <module>engineconn-plugins/datax</module>
     </modules>
 
 </project>
