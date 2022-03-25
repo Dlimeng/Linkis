@@ -13,55 +13,7 @@ public class DataXOnceJobTest2 {
         LinkisJobClient.config().setDefaultServerUrl("http://192.168.0.25:8088");
         /**
          */
-        String code = "{\n" +
-                "    \"job\": {\n" +
-                "        \"content\":[\n" +
-                "            {\n" +
-                "                \"reader\": {\n" +
-                "                    \"name\": \"txtfilereader\", \n" +
-                "                    \"parameter\": {\n" +
-                "                        \"path\":[\"/opt/install/datax/data/test1.csv\"],\n" +
-                "                        \"encoding\":\"gbk\",\n" +
-                "                        \"column\": [\n" +
-                "                            {\n" +
-                "                                \"index\":0,\n" +
-                "                                \"type\":\"string\"\n" +
-                "                            },\n" +
-                "                            {\n" +
-                "                                \"index\":1,\n" +
-                "                                \"type\":\"string\"\n" +
-                "                            }\n" +
-                "                        ], \n" +
-                "                        \"fileldDelimiter\":\",\"\n" +
-                "                    }\n" +
-                "                }, \n" +
-                "                \"writer\": {\n" +
-                "                    \"name\": \"mysqlwriter\", \n" +
-                "                    \"parameter\": {\n" +
-                "                        \"username\": \"scm\",\n" +
-                "                        \"password\": \"scm_@casc2f\", \n" +
-                "                        \"column\": [\n" +
-                "                            \"i\",\n" +
-                "                            \"j\"\n" +
-                "                        ],\n" +
-                "                        \"preSql\": [], \n" +
-                "                        \"connection\": [\n" +
-                "                            {\n" +
-                "                                \"jdbcUrl\":\"jdbc:mysql://192.168.0.21:3306/test\", \n" +
-                "                                \"table\": [\"testtab\"]\n" +
-                "                            }\n" +
-                "                        ]\n" +
-                "                    }\n" +
-                "                }\n" +
-                "            }\n" +
-                "        ], \n" +
-                "        \"setting\": {\n" +
-                "            \"speed\": {\n" +
-                "                \"channel\": \"4\"\n" +
-                "            }\n" +
-                "        }\n" +
-                "    }\n" +
-                "}";
+        String code = "{\"job\":{\"content\":[{\"reader\":{\"parameter\":{\"password\":\"rO0ABXQAC3NjbV9AY2FzYzJm\",\"column\":[{\"name\":\"id\",\"type\":\"VARCHAR\"},{\"name\":\"age\",\"type\":\"VARCHAR\"}],\"connection\":[{\"jdbcUrl\":[{\"database\":\"test\",\"port\":\"3306\",\"host\":\"192.168.0.21\"}],\"querySql\":[\"SELECT A.id,A.age FROM t_psn A\"]}],\"alias\":\"[\\\"A\\\"]\",\"table\":[\"t_psn\"],\"username\":\"scm\"},\"name\":\"mysqlreader\"},\"writer\":{\"parameter\":{\"path\":\"/user/hive/warehouse/test\",\"hiveMetastoreUris\":\"thrift://192.168.0.21:9083\",\"column\":[{\"name\":\"id\",\"index\":0,\"type\":\"string\"},{\"name\":\"age\",\"index\":1,\"type\":\"string\"}],\"defaultFS\":\"hdfs://192.168.0.21:1429\",\"writeMode\":\"truncate\",\"fieldDelimiter\":\",\",\"fileType\":\"text\",\"hiveDatabase\":\"test\",\"hiveTable\":\"t_psn\",\"encoding\":\"UTF-8\",\"authType\":\"NONE\"},\"name\":\"hdfswriter\"}}],\"setting\":{\"syncMeta\":\"false\",\"errorLimit\":{\"record\":\"100\"},\"useProcessor\":\"false\",\"speed\":{\"byte\":\"10240\",\"record\":\"1000\",\"channel\":\"1\"},\"advance\":{\"mMemory\":\"1000m\"}}}}";
 
         Map<String,String> rwMaps = new HashMap<>();
         rwMaps.put("reader","mysqlreader");
