@@ -21,7 +21,7 @@ public class DataXOnceJobTest2 {
         SubmittableSimpleOnceJob onceJob = LinkisJobClient.once().simple().builder().setDescription(new Gson().toJson(rwMaps)).setCreateService("DataX-Test")
                 .setMaxSubmitTime(300000)
                 .addLabel(LabelKeyUtils.ENGINE_TYPE_LABEL_KEY(), "datax-3.0.0")
-                .addLabel(LabelKeyUtils.USER_CREATOR_LABEL_KEY(), "hdfs-datax")
+                .addLabel(LabelKeyUtils.USER_CREATOR_LABEL_KEY(), "hdfs-exchangis")
                 .addLabel(LabelKeyUtils.ENGINE_CONN_MODE_LABEL_KEY(), "once")
                 .addStartupParam(Configuration.IS_TEST_MODE().key(), true)
                 .addExecuteUser("hdfs").addJobContent("runType", "appconn").addJobContent("code", code).addSource("jobName", "OnceJobTest")
