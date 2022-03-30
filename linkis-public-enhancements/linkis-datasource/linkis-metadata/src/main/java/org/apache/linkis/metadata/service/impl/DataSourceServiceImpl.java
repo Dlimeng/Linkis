@@ -60,7 +60,7 @@ public class DataSourceServiceImpl implements DataSourceService {
     @DataSource(name = DSEnum.FIRST_DATA_SOURCE)
     @Override
     public JsonNode getDbs(String userName) throws Exception {
-        List<String> dbs = hiveMetaDao.getAllDbs();
+        List<String> dbs = hiveMetaWithPermissionService.getDbsOptionalUserName(userName);
         ArrayNode dbsNode = jsonMapper.createArrayNode();
         for (String db : dbs) {
             ObjectNode dbNode = jsonMapper.createObjectNode();
