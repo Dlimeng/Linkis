@@ -91,6 +91,7 @@ abstract class UJESClient extends Closeable {
     executeUJESJob(getColumnsAction).asInstanceOf[GetColumnsResult]
   }
 
+  def getAllSizeMetaDataSource(action: GetMetadataSourceAllSizeAction): GetMetadataSourceAllSizeResult = executeUJESJob(action).asInstanceOf[GetMetadataSourceAllSizeResult]
 }
 object UJESClient {
   def apply(clientConfig: DWSClientConfig): UJESClient = new UJESClientImpl(clientConfig)
