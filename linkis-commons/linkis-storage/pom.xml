@@ -79,6 +79,13 @@
             </exclusions>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.apache.parquet</groupId>-->
+<!--            <artifactId>parquet-hadoop</artifactId>-->
+<!--            <version>1.8.0</version>-->
+<!--        </dependency>-->
+
+
     </dependencies>
 
     <build>
