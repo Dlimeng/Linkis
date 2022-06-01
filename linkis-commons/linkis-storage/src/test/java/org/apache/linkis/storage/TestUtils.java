@@ -9,19 +9,19 @@ import java.io.IOException;
 import java.util.concurrent.Callable;
 
 public class TestUtils {
-//
-//    public static void enforceEmptyDir(Configuration conf, Path path) throws IOException {
-//        FileSystem fs = path.getFileSystem(conf);
-//        if (fs.exists(path)) {
-//            if (!fs.delete(path, true)) {
-//                throw new IOException("can not delete path " + path);
-//            }
-//        }
-//        if (!fs.mkdirs(path)) {
-//            throw new IOException("can not create path " + path);
-//        }
-//    }
-//
+
+    public static void enforceEmptyDir(Configuration conf, Path path) throws IOException {
+        FileSystem fs = path.getFileSystem(conf);
+        if (fs.exists(path)) {
+            if (!fs.delete(path, true)) {
+                throw new IOException("can not delete path " + path);
+            }
+        }
+        if (!fs.mkdirs(path)) {
+            throw new IOException("can not create path " + path);
+        }
+    }
+
 //    /**
 //     * A convenience method to avoid a large number of @Test(expected=...) tests
 //     * @param message A String message to describe this assertion
