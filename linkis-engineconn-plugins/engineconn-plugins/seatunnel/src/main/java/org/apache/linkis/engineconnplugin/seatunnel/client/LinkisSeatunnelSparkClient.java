@@ -16,5 +16,16 @@
 
 package org.apache.linkis.engineconnplugin.seatunnel.client;
 
+import org.apache.linkis.engineconnplugin.seatunnel.client.utils.JarLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LinkisSeatunnelSparkClient {
+    private static Logger logger = LoggerFactory.getLogger(LinkisSeatunnelSparkClient.class);
+    private static Class<?> seatunnelEngineClass;
+    private static JarLoader jarLoader;
+
+    public static int main(String[] args) {
+        return 0;
+    }
 }

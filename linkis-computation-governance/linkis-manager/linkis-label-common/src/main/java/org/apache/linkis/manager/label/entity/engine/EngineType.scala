@@ -61,6 +61,8 @@ object EngineType extends Enumeration with Logging {
 
   val ELASTICSEARCH = Value("elasticsearch")
 
+  val SEATUNNEL = Value("seatunnel")
+
   def mapFsTypeToEngineType(fsType: String): String = {
     fsType match {
       case "file" =>
@@ -92,6 +94,7 @@ object EngineType extends Enumeration with Logging {
     case _ if APPCONN.toString.equals(str) => APPCONN
     case _ if SQOOP.toString.equalsIgnoreCase(str) => SQOOP
     case _ if DATAX.toString.equalsIgnoreCase(str) => DATAX
+    case _ if SEATUNNEL.toString.equalsIgnoreCase(str) => SEATUNNEL
     case _ => null
 
   }

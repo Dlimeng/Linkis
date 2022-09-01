@@ -16,22 +16,50 @@
 
 package org.apache.linkis.engineconnplugin.seatunnel
 
+import org.apache.linkis.engineconnplugin.seatunnel.factory.SeatunnelEngineConnFactory
+import org.apache.linkis.engineconnplugin.seatunnel.launch.SeatunnelEngineConnLaunchBuilder
 import org.apache.linkis.manager.engineplugin.common.EngineConnPlugin
 import org.apache.linkis.manager.engineplugin.common.creation.EngineConnFactory
 import org.apache.linkis.manager.engineplugin.common.launch.EngineConnLaunchBuilder
-import org.apache.linkis.manager.engineplugin.common.resource.EngineResourceFactory
+import org.apache.linkis.manager.engineplugin.common.resource.{EngineResourceFactory, GenericEngineResourceFactory}
 import org.apache.linkis.manager.label.entity.Label
 
-import java.util
 
 class SeatunnelEngineConnPlugin extends EngineConnPlugin{
-  override def init(params: util.Map[String, Any]): Unit = ???
+  private val EP_CONTEXT_CONSTRUCTOR_LOCK = new Object()
+  private var engineResourceFactory: EngineResourceFactory = _
+  private var engineConnLaunchBuilder: EngineConnLaunchBuilder = _
+  private var engineConnFactory: EngineConnFactory = _
+  override def init(params: java.util.Map[String, Any]): Unit = {}
 
-  override def getEngineResourceFactory: EngineResourceFactory = ???
+  override def getEngineResourceFactory: EngineResourceFactory = {
 
-  override def getEngineConnLaunchBuilder: EngineConnLaunchBuilder = ???
+    EP_CONTEXT_CONSTRUCTOR_LOCK.synchronized{
+      if(null == engineResourceFactory){
+        engineResourceFactory = new GenericEngineResourceFactory
+      }
+      engineResourceFactory
+    }
+  }
 
-  override def getEngineConnFactory: EngineConnFactory = ???
+  override def getEngineConnLaunchBuilder: EngineConnLaunchBuilder = {
+    EP_CONTEXT_CONSTRUCTOR_LOCK.synchronized {
+      if (null == engineConnLaunchBuilder) {
+        engineConnLaunchBuilder = new SeatunnelEngineConnLaunchBuilder()
+      }
+      engineConnLaunchBuilder
+    }
+  }
 
-  override def getDefaultLabels: util.List[Label[_]] = ???
+
+  override def getEngineConnFactory: EngineConnFactory = {
+    EP_CONTEXT_CONSTRUCTOR_LOCK.synchronized {
+      if (null == engineConnFactory) {
+        engineConnFactory = new SeatunnelEngineConnFactory
+      }
+      engineConnFactory
+    }
+  }
+
+  override def getDefaultLabels: java.util.List[Label[_]] = new java.util.ArrayList[Label[_]]
 }
