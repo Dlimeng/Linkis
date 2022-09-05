@@ -20,7 +20,6 @@ trait SeatunnelSparkOnceExecutor  extends ManageableOnceExecutor with SeatunnelS
 
   override def getId: String = "SeatunnelSparkOnceApp_" + id
   override def close(): Unit = {
-    //Sqoop.close()
     super.close()
   }
   override def trySucceed(): Boolean = {
@@ -34,7 +33,6 @@ trait SeatunnelSparkOnceExecutor  extends ManageableOnceExecutor with SeatunnelS
   }
 
   override def tryFailed(): Boolean = {
-    //LinkisSqoopClient.close()
     super.tryFailed()
   }
 

@@ -86,4 +86,6 @@ public class LabelCommonConfig {
 
     public static final CommonVars<String> TRINO_ENGINE_CONN_VERSION =
             CommonVars.apply("wds.linkis.trino.engineconn.version", "371");
+    public static final CommonVars<String> SEATUNNEL_ENGINE_CONN_VERSION =
+            CommonVars.apply("wds.linkis.seatunnel.engineconn.version", "2.1.2");
 }

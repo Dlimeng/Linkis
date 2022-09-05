@@ -1,7 +1,7 @@
 package org.apache.linkis.engineconnplugin.seatunnel.launch
 
 import org.apache.commons.lang3.StringUtils
-import org.apache.linkis.engineconnplugin.seatunnel.context.SeatunnelEnvConfiguration
+import org.apache.linkis.engineconnplugin.seatunnel.config.SeatunnelEnvConfiguration
 import org.apache.linkis.manager.engineplugin.common.launch.entity.EngineConnBuildRequest
 import org.apache.linkis.manager.engineplugin.common.launch.process.Environment.{HADOOP_CONF_DIR, variable}
 import org.apache.linkis.manager.engineplugin.common.launch.process.JavaProcessEngineConnLaunchBuilder

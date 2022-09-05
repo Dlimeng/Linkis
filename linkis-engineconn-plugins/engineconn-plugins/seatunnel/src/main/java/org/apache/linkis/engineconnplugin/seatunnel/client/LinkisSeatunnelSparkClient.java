@@ -17,8 +17,14 @@
 package org.apache.linkis.engineconnplugin.seatunnel.client;
 
 import org.apache.linkis.engineconnplugin.seatunnel.client.utils.JarLoader;
+import org.apache.seatunnel.core.spark.SeatunnelSpark;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Method;
 
 public class LinkisSeatunnelSparkClient {
     private static Logger logger = LoggerFactory.getLogger(LinkisSeatunnelSparkClient.class);
@@ -26,6 +32,25 @@ public class LinkisSeatunnelSparkClient {
     private static JarLoader jarLoader;
 
     public static int main(String[] args) {
-        return 0;
+        try {
+            jarLoader = new JarLoader(new String[]{
+                    LinkisSeatunnelSparkClient.class.getProtectionDomain().getCodeSource().getLocation().getPath()
+            });
+            seatunnelEngineClass = jarLoader.loadClass("org.apache.seatunnel.core.spark.SparkStarter");
+            jarLoader.addJarURL(SeatunnelSpark.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+            Thread.currentThread().setContextClassLoader(jarLoader);
+            Method method = seatunnelEngineClass.getDeclaredMethod("main",String[].class);
+            return (Integer) method.invoke(null, (Object) args);
+        }catch (Throwable e){
+            logger.error("Run Error Message:"+getLog(e));
+            return -1;
+        }
+    }
+
+    private static String getLog(Throwable e){
+        Writer result = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(result);
+        e.printStackTrace(printWriter);
+        return e.toString();
     }
 }
