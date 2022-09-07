@@ -5,7 +5,7 @@ import org.apache.linkis.engineconn.once.executor.{ManageableOnceExecutor, OnceE
 import org.apache.linkis.manager.common.entity.enumeration.NodeStatus
 import scala.collection.convert.WrapAsScala._
 
-trait SeatunnelSparkOnceExecutor  extends ManageableOnceExecutor with SeatunnelSparkExecutor{
+trait SeatunnelOnceExecutor  extends ManageableOnceExecutor with SeatunnelSparkExecutor{
   protected def submit(onceExecutorExecutionContext: OnceExecutorExecutionContext): Unit = {
     val options = onceExecutorExecutionContext.getOnceExecutorContent.getJobContent.map {
       case (k, v: String) => k -> v
@@ -15,10 +15,9 @@ trait SeatunnelSparkOnceExecutor  extends ManageableOnceExecutor with SeatunnelS
     doSubmit(onceExecutorExecutionContext, options)
   }
   def doSubmit(onceExecutorExecutionContext: OnceExecutorExecutionContext, options: Map[String, String]): Unit
-
   val id: Long
 
-  override def getId: String = "SeatunnelSparkOnceApp_" + id
+  override def getId: String = "SeatunnelOnceApp_" + id
   override def close(): Unit = {
     super.close()
   }

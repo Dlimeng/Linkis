@@ -1,6 +1,5 @@
 package org.apache.linkis.engineconnplugin.seatunnel.executor
 
-
 import org.apache.commons.lang.StringUtils
 import org.apache.linkis.common.utils.Utils
 import org.apache.linkis.engineconn.common.conf.EngineConnConf.ENGINE_CONN_LOCAL_PATH_PWD_KEY
@@ -21,7 +20,7 @@ import java.nio.file.Files
 import java.util
 import java.util.concurrent.{Future, TimeUnit}
 
-class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected val seatunnelEngineConnContext: SeatunnelEngineConnContext) extends SeatunnelOnceExecutor with OperableOnceExecutor {
+class SeatunnelFlinkSQLOnceCodeExecutor(override val id: Long, override protected val seatunnelEngineConnContext: SeatunnelEngineConnContext) extends SeatunnelOnceExecutor with OperableOnceExecutor {
   private var params: util.Map[String, String] = _
   private var future: Future[_] = _
   private var daemonThread: Future[_] = _
@@ -35,7 +34,7 @@ class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected va
         info("Try to execute codes."+code)
         if(runCode(code) !=0){
           isFailed = true
-          setResponse(ErrorExecuteResponse("Run code failed!", new JobExecutionException("Exec Seatunnel Spark Code Error")))
+          setResponse(ErrorExecuteResponse("Run code failed!", new JobExecutionException("Exec Seatunnel FlinkSQL Error")))
           tryFailed()
         }
         info("All codes completed, now stop SeatunnelEngineConn.")
@@ -49,7 +48,7 @@ class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected va
   }
 
   protected def runCode(code: String):Int = {
-    info("Execute SeatunnelSpark Process")
+    info("Execute SeatunnelFlinkSQL Process")
     val masterKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_MASTER.getValue
     val configKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_CONFIG.getValue
     val deployModeKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_DEPLOY_MODE.getValue
@@ -81,7 +80,7 @@ class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected va
     if (!isCompleted) daemonThread = Utils.defaultScheduler.scheduleAtFixedRate(new Runnable {
       override def run(): Unit = {
         if (!(future.isDone || future.isCancelled)) {
-          info("The Seatunnel Spark Process In Running")
+          info("The Seatunnel FlinkSQL Process In Running")
         }
       }
     }, SeatunnelEnvConfiguration.SEATUNNEL_STATUS_FETCH_INTERVAL.getValue.toLong,

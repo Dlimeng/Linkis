@@ -18,6 +18,7 @@ package org.apache.linkis.engineconnplugin.seatunnel.client;
 
 import org.apache.linkis.engineconnplugin.seatunnel.client.utils.JarLoader;
 import org.apache.seatunnel.core.spark.SeatunnelSpark;
+import org.apache.seatunnel.core.sql.SeatunnelSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +37,8 @@ public class LinkisSeatunnelFlinkSQLClient {
             jarLoader = new JarLoader(new String[]{
                     LinkisSeatunnelSparkClient.class.getProtectionDomain().getCodeSource().getLocation().getPath()
             });
-            seatunnelEngineClass = jarLoader.loadClass("org.apache.seatunnel.core.spark.SparkStarter");
-            jarLoader.addJarURL(SeatunnelSpark.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+            seatunnelEngineClass = jarLoader.loadClass("org.apache.seatunnel.core.sql.FlinkSqlStarter");
+            jarLoader.addJarURL(SeatunnelSql.class.getProtectionDomain().getCodeSource().getLocation().getPath());
             Thread.currentThread().setContextClassLoader(jarLoader);
             Method method = seatunnelEngineClass.getDeclaredMethod("main",String[].class);
             return (Integer) method.invoke(null, (Object) args);
