@@ -62,6 +62,7 @@ class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected va
     }
     System.setProperty("SEATUNNEL_HOME",System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue));
     Files.createSymbolicLink(new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/seatunnel").toPath,new File(SeatunnelEnvConfiguration.SEATUNNEL_HOME.getValue).toPath)
+    info("Execute SeatunnelSpark Process end")
     LinkisSeatunnelSparkClient.main(args)
   }
   private def localArray(code: String): Array[String] ={
