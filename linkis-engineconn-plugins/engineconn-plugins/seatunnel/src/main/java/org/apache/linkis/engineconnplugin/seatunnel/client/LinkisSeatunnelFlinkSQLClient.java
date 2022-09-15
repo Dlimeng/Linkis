@@ -17,7 +17,6 @@
 package org.apache.linkis.engineconnplugin.seatunnel.client;
 
 import org.apache.linkis.engineconnplugin.seatunnel.client.utils.JarLoader;
-import org.apache.seatunnel.core.spark.SeatunnelSpark;
 import org.apache.seatunnel.core.sql.SeatunnelSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -5,17 +5,19 @@ import org.apache.linkis.common.utils.Utils
 import org.apache.linkis.engineconn.common.conf.EngineConnConf.ENGINE_CONN_LOCAL_PATH_PWD_KEY
 import org.apache.linkis.engineconn.core.EngineConnObject
 import org.apache.linkis.engineconn.once.executor.{OnceExecutorExecutionContext, OperableOnceExecutor}
-import org.apache.linkis.engineconnplugin.seatunnel.client.LinkisSeatunnelSparkClient
+import org.apache.linkis.engineconnplugin.seatunnel.client.LinkisSeatunnelFlinkClient
 import org.apache.linkis.engineconnplugin.seatunnel.client.exception.JobExecutionException
-import org.apache.linkis.engineconnplugin.seatunnel.config.{SeatunnelEnvConfiguration, SeatunnelSparkEnvConfiguration}
+import org.apache.linkis.engineconnplugin.seatunnel.config.SeatunnelFlinkEnvConfiguration.{LINKIS_FLINK_CHECK, LINKIS_FLINK_CONFIG, LINKIS_FLINK_RUNMODE, LINKIS_FLINK_VARIABLE}
+import org.apache.linkis.engineconnplugin.seatunnel.config.SeatunnelEnvConfiguration
 import org.apache.linkis.engineconnplugin.seatunnel.context.SeatunnelEngineConnContext
+import org.apache.linkis.engineconnplugin.seatunnel.util.SeatunnelUtils.{generateExecFile, localArray}
 import org.apache.linkis.manager.common.entity.resource.{CommonNodeResource, LoadInstanceResource, NodeResource}
 import org.apache.linkis.manager.engineplugin.common.conf.EngineConnPluginConf
 import org.apache.linkis.protocol.constants.TaskConstant
 import org.apache.linkis.protocol.engine.JobProgressInfo
 import org.apache.linkis.scheduler.executer.ErrorExecuteResponse
 
-import java.io.{File, PrintWriter}
+import java.io.File
 import java.nio.file.Files
 import java.util
 import java.util.concurrent.{Future, TimeUnit}
@@ -49,38 +51,33 @@ class SeatunnelFlinkOnceCodeExecutor(override val id: Long, override protected v
 
   protected def runCode(code: String):Int = {
     info("Execute SeatunnelFlink Process")
-    val masterKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_MASTER.getValue
-    val configKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_CONFIG.getValue
-    val deployModeKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_DEPLOY_MODE.getValue
 
     var args = localArray(generateExecFile(code))
-    if(params != null && StringUtils.isNotBlank(params.get(masterKey))) {
-      args = Array(masterKey,params.getOrDefault(masterKey,"yarn"),
-        deployModeKey,params.getOrDefault(deployModeKey,"client"),
-        configKey,generateExecFile(code))
+    val flinkRunMode = LINKIS_FLINK_RUNMODE.getValue
+    if(params != null && StringUtils.isNotBlank(params.get(flinkRunMode))) {
+      val config = LINKIS_FLINK_CONFIG.getValue
+      val variable = LINKIS_FLINK_VARIABLE.getValue
+      val check = LINKIS_FLINK_CHECK.getValue
+
+      args = Array(flinkRunMode,params.getOrDefault(flinkRunMode,"run"),
+        check,params.getOrDefault(check,"false"),
+        config,generateExecFile(code))
+
+      if(params.containsKey(variable)) args ++(Array(variable,params.get(variable)))
+
     }
     System.setProperty("SEATUNNEL_HOME",System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue));
     Files.createSymbolicLink(new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/seatunnel").toPath,new File(SeatunnelEnvConfiguration.SEATUNNEL_HOME.getValue).toPath)
-    LinkisSeatunnelSparkClient.main(args)
-  }
-  private def localArray(code: String): Array[String] ={
-     Array(SeatunnelSparkEnvConfiguration.LINKIS_SPARK_CONFIG.getValue,generateExecFile(code))
+    info("Execute SeatunnelFlink Process end")
+    LinkisSeatunnelFlinkClient.main(args)
   }
 
-
-  private def generateExecFile(code: String) :String = {
-    val file = new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/job_"+System.currentTimeMillis())
-    val writer = new PrintWriter(file)
-    writer.write(code)
-    writer.close()
-    file.getAbsolutePath
-  }
 
   override protected def waitToRunning(): Unit = {
     if (!isCompleted) daemonThread = Utils.defaultScheduler.scheduleAtFixedRate(new Runnable {
       override def run(): Unit = {
         if (!(future.isDone || future.isCancelled)) {
-          info("The Seatunnel Spark Process In Running")
+          info("The Seatunnel Flink Process In Running")
         }
       }
     }, SeatunnelEnvConfiguration.SEATUNNEL_STATUS_FETCH_INTERVAL.getValue.toLong,

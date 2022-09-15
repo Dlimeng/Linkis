@@ -10,13 +10,14 @@ import org.apache.linkis.engineconnplugin.seatunnel.client.LinkisSeatunnelSparkC
 import org.apache.linkis.engineconnplugin.seatunnel.client.exception.JobExecutionException
 import org.apache.linkis.engineconnplugin.seatunnel.config.{SeatunnelEnvConfiguration, SeatunnelSparkEnvConfiguration}
 import org.apache.linkis.engineconnplugin.seatunnel.context.SeatunnelEngineConnContext
+import org.apache.linkis.engineconnplugin.seatunnel.util.SeatunnelUtils._
 import org.apache.linkis.manager.common.entity.resource.{CommonNodeResource, LoadInstanceResource, NodeResource}
 import org.apache.linkis.manager.engineplugin.common.conf.EngineConnPluginConf
 import org.apache.linkis.protocol.constants.TaskConstant
 import org.apache.linkis.protocol.engine.JobProgressInfo
 import org.apache.linkis.scheduler.executer.ErrorExecuteResponse
 
-import java.io.{File, PrintWriter}
+import java.io.File
 import java.nio.file.Files
 import java.util
 import java.util.concurrent.{Future, TimeUnit}
@@ -65,18 +66,7 @@ class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected va
     info("Execute SeatunnelSpark Process end")
     LinkisSeatunnelSparkClient.main(args)
   }
-  private def localArray(code: String): Array[String] ={
-     Array(SeatunnelSparkEnvConfiguration.LINKIS_SPARK_CONFIG.getValue,generateExecFile(code))
-  }
 
-
-  private def generateExecFile(code: String) :String = {
-    val file = new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/job_"+System.currentTimeMillis())
-    val writer = new PrintWriter(file)
-    writer.write(code)
-    writer.close()
-    file.getAbsolutePath
-  }
 
   override protected def waitToRunning(): Unit = {
     if (!isCompleted) daemonThread = Utils.defaultScheduler.scheduleAtFixedRate(new Runnable {
