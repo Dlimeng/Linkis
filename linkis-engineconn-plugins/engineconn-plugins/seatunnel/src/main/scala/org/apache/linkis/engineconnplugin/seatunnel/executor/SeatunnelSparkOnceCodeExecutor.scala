@@ -55,15 +55,17 @@ class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected va
     val configKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_CONFIG.getValue
     val deployModeKey = SeatunnelSparkEnvConfiguration.LINKIS_SPARK_DEPLOY_MODE.getValue
 
-    var args = localArray(generateExecFile(code))
+    var args:Array[String] =  Array.empty
     if(params != null && StringUtils.isNotBlank(params.get(masterKey))) {
       args = Array(masterKey,params.getOrDefault(masterKey,"yarn"),
         deployModeKey,params.getOrDefault(deployModeKey,"client"),
         configKey,generateExecFile(code))
+    }else{
+       args = localArray(generateExecFile(code))
     }
     System.setProperty("SEATUNNEL_HOME",System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue));
     Files.createSymbolicLink(new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/seatunnel").toPath,new File(SeatunnelEnvConfiguration.SEATUNNEL_HOME.getValue).toPath)
-    info("Execute SeatunnelSpark Process end")
+    info(s"Execute SeatunnelSpark Process end args:${args.mkString(" ")}")
     LinkisSeatunnelSparkClient.main(args)
   }
 

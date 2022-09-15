@@ -52,7 +52,7 @@ class SeatunnelFlinkSQLOnceCodeExecutor(override val id: Long, override protecte
   protected def runCode(code: String):Int = {
     info("Execute SeatunnelFlink Process")
 
-    var args = localArray(generateExecFile(code))
+    var args:Array[String] =  Array.empty
     val flinkRunMode = LINKIS_FLINK_RUNMODE.getValue
     if(params != null && StringUtils.isNotBlank(params.get(flinkRunMode))) {
       val config = LINKIS_FLINK_CONFIG.getValue
@@ -65,10 +65,12 @@ class SeatunnelFlinkSQLOnceCodeExecutor(override val id: Long, override protecte
 
       if(params.containsKey(variable)) args ++(Array(variable,params.get(variable)))
 
+    }else{
+      args = localArray(generateExecFile(code))
     }
     System.setProperty("SEATUNNEL_HOME",System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue));
     Files.createSymbolicLink(new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/seatunnel").toPath,new File(SeatunnelEnvConfiguration.SEATUNNEL_HOME.getValue).toPath)
-    info("Execute SeatunnelFlinkSQL Process end")
+    info(s"Execute SeatunnelFlinkSQL Process end args:${args.mkString(" ")}")
     LinkisSeatunnelFlinkSQLClient.main(args)
   }
 

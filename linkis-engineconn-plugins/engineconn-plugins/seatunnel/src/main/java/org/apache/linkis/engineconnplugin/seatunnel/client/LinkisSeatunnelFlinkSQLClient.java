@@ -34,7 +34,7 @@ public class LinkisSeatunnelFlinkSQLClient {
     public static int main(String[] args) {
         try {
             jarLoader = new JarLoader(new String[]{
-                    LinkisSeatunnelSparkClient.class.getProtectionDomain().getCodeSource().getLocation().getPath()
+                    LinkisSeatunnelFlinkSQLClient.class.getProtectionDomain().getCodeSource().getLocation().getPath()
             });
             seatunnelEngineClass = jarLoader.loadClass("org.apache.seatunnel.core.sql.FlinkSqlStarter");
             jarLoader.addJarURL(SeatunnelSql.class.getProtectionDomain().getCodeSource().getLocation().getPath());

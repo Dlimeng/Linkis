@@ -7,11 +7,11 @@ import org.apache.linkis.computation.client.utils.LabelKeyUtils;
 public class SeatunnelOnceJobTest {
     public static void main(String[] args) {
         LinkisJobClient.config().setDefaultServerUrl("http://192.168.0.27:9001");
-        String code ="env{spark.app.name=\"SeaTunnel\"spark.executor.instances=2spark.executor.cores=1spark.executor.memory=\"1g\"spark.streaming.batchDuration=5}source{fakeStream{content=[\"Hello World, SeaTunnel\"]}}transform{split{fields=[\"msg\",\"name\"]delimiter=\",\"}}sink{Console{}}";
+        String code ="env{spark.app.name=\"SeaTunnel\"spark.executor.instances=2spark.executor.cores=1spark.executor.memory=\"1g\"}source{Fake{result_table_name=\"my_dataset\"}}transform{}sink{Console{}}";
         SubmittableSimpleOnceJob onceJob = LinkisJobClient.once().simple().builder().setCreateService("seatunnel-Test")
                 .setMaxSubmitTime(300000)
                 .addLabel(LabelKeyUtils.ENGINE_TYPE_LABEL_KEY(), "seatunnel-2.1.2")
-                .addLabel(LabelKeyUtils.USER_CREATOR_LABEL_KEY(), "hdfs-seatunnel")
+                .addLabel(LabelKeyUtils.USER_CREATOR_LABEL_KEY(), "hadoop-seatunnel")
                 .addLabel(LabelKeyUtils.ENGINE_CONN_MODE_LABEL_KEY(), "once")
                 .addStartupParam(Configuration.IS_TEST_MODE().key(), true)
                 .addExecuteUser("hadoop")

@@ -11,7 +11,7 @@ object SeatunnelUtils {
   }
 
    def generateExecFile(code: String) :String = {
-    val file = new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/job_"+System.currentTimeMillis())
+    val file = new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/config_"+System.currentTimeMillis())
     val writer = new PrintWriter(file)
     writer.write(code)
     writer.close()
