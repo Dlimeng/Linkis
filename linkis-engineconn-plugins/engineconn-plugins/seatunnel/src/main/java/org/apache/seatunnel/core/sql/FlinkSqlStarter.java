@@ -17,16 +17,20 @@
 
 package org.apache.seatunnel.core.sql;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.linkis.engineconnplugin.seatunnel.util.SeatunnelUtils;
 import org.apache.seatunnel.common.config.Common;
 import org.apache.seatunnel.core.base.Starter;
 import org.apache.seatunnel.core.flink.args.FlinkCommandArgs;
 import org.apache.seatunnel.core.flink.config.FlinkJobType;
 import org.apache.seatunnel.core.flink.utils.CommandLineUtils;
 
+
 import java.util.List;
 
 public class FlinkSqlStarter implements Starter {
-
+    private static final Log logger = LogFactory.getLog(FlinkSqlStarter.class);
     private static final String APP_JAR_NAME = "seatunnel-core-flink-sql.jar";
     private static final String CLASS_NAME = SeatunnelSql.class.getName();
 
@@ -49,8 +53,19 @@ public class FlinkSqlStarter implements Starter {
     }
 
     @SuppressWarnings("checkstyle:RegexpSingleline")
-    public static void main(String[] args) throws Exception {
-        FlinkSqlStarter flinkSqlStarter = new FlinkSqlStarter(args);
-        System.out.println(String.join(" ", flinkSqlStarter.buildCommands()));
+    public static int main(String[] args) {
+        int exitCode = 0;
+        logger.info("FlinkSqlStarter start");
+        try {
+            FlinkSqlStarter flinkSqlStarter = new FlinkSqlStarter(args);
+            String commandVal = String.join(" ", flinkSqlStarter.buildCommands());
+            logger.info("commandVal:"+commandVal);
+            exitCode = SeatunnelUtils.executeLine(commandVal);
+        }catch (Exception e){
+            exitCode = 1;
+            logger.error("\n\n该任务最可能的错误原因是:\n" + e);
+        }
+
+        return exitCode;
     }
 }

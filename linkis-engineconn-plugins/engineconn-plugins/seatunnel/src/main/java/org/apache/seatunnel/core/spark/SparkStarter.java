@@ -1,25 +1,11 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.apache.seatunnel.core.spark;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.UnixStyleUsageFormatter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.linkis.engineconnplugin.seatunnel.util.SeatunnelUtils;
 import org.apache.seatunnel.apis.base.env.RuntimeEnv;
 import org.apache.seatunnel.common.Constants;
 import org.apache.seatunnel.common.config.Common;
@@ -33,6 +19,7 @@ import org.apache.seatunnel.core.base.utils.CompressionUtils;
 import org.apache.seatunnel.core.spark.args.SparkCommandArgs;
 import org.apache.seatunnel.shade.com.typesafe.config.Config;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -45,11 +32,8 @@ import java.util.stream.Stream;
 
 import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 
-/**
- * A Starter to generate spark-submit command for SeaTunnel job on spark.
- */
 public class SparkStarter implements Starter {
-
+    private static final Log logger = LogFactory.getLog(SparkStarter.class);
     private static final int USAGE_EXIT_CODE = 234;
 
     private static final int PLUGIN_LIB_DIR_DEPTH = 3;
@@ -90,10 +74,20 @@ public class SparkStarter implements Starter {
     }
 
     @SuppressWarnings("checkstyle:RegexpSingleline")
-    public static void main(String[] args) throws IOException {
-        SparkStarter starter = getInstance(args);
-        List<String> command = starter.buildCommands();
-        System.out.println(String.join(" ", command));
+    public static int main(String[] args) {
+        int exitCode = 0;
+        logger.info("starter start");
+        try {
+            SparkStarter starter = getInstance(args);
+            List<String> command = starter.buildCommands();
+            String commandVal = String.join(" ", command);
+            logger.info("commandVal:"+commandVal);
+            exitCode = SeatunnelUtils.executeLine(commandVal);
+        }catch (Exception e){
+            exitCode = 1;
+            logger.error("\n\n该任务最可能的错误原因是:\n" + e);
+        }
+        return exitCode;
     }
 
     /**
@@ -135,11 +129,15 @@ public class SparkStarter implements Starter {
     @Override
     public List<String> buildCommands() throws IOException {
         setSparkConf();
+        logger.info("setSparkConf end");
+        logger.info(commandArgs.getDeployMode().getName());
         Common.setDeployMode(commandArgs.getDeployMode().getName());
+        logger.info("Common.setDeployMode end");
         this.jars.addAll(getPluginsJarDependencies());
         this.jars.addAll(listJars(Common.appLibDir()));
         this.jars.addAll(getConnectorJarDependencies());
         this.appName = this.sparkConf.getOrDefault("spark.app.name", Constants.LOGO);
+        logger.info("buildFinal end");
         return buildFinal();
     }
 

@@ -17,11 +17,15 @@
 
 package org.apache.seatunnel.core.flink;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.linkis.engineconnplugin.seatunnel.util.SeatunnelUtils;
 import org.apache.seatunnel.common.config.Common;
 import org.apache.seatunnel.core.base.Starter;
 import org.apache.seatunnel.core.flink.args.FlinkCommandArgs;
 import org.apache.seatunnel.core.flink.config.FlinkJobType;
 import org.apache.seatunnel.core.flink.utils.CommandLineUtils;
+import org.apache.seatunnel.core.sql.FlinkSqlStarter;
 
 import java.util.List;
 
@@ -29,7 +33,7 @@ import java.util.List;
  * The SeaTunnel flink starter. This class is responsible for generate the final flink job execute command.
  */
 public class FlinkStarter implements Starter {
-
+    private static final Log logger = LogFactory.getLog(FlinkStarter.class);
     private static final String APP_NAME = SeatunnelFlink.class.getName();
     private static final String APP_JAR_NAME = "seatunnel-core-flink.jar";
 
@@ -51,9 +55,19 @@ public class FlinkStarter implements Starter {
     }
 
     @SuppressWarnings("checkstyle:RegexpSingleline")
-    public static void main(String[] args) throws Exception {
-        FlinkStarter flinkStarter = new FlinkStarter(args);
-        System.out.println(String.join(" ", flinkStarter.buildCommands()));
+    public static int main(String[] args) {
+        logger.info("FlinkStarter start");
+        int exitCode = 0;
+        try {
+            FlinkStarter flinkStarter = new FlinkStarter(args);
+            String commandVal = String.join(" ", flinkStarter.buildCommands());
+            logger.info("commandVal:"+commandVal);
+            exitCode = SeatunnelUtils.executeLine(commandVal);
+        }catch (Exception e){
+            exitCode = 1;
+            logger.error("\n\n该任务最可能的错误原因是:\n" + e);
+        }
+        return exitCode;
     }
 
     @Override

@@ -2,6 +2,8 @@ package org.apache.linkis.engineconnplugin.seatunnel.executor
 
 
 import org.apache.commons.lang.StringUtils
+import org.apache.linkis.common.io.{MetaData, Record}
+import org.apache.linkis.common.io.resultset.ResultSetWriter
 import org.apache.linkis.common.utils.Utils
 import org.apache.linkis.engineconn.common.conf.EngineConnConf.ENGINE_CONN_LOCAL_PATH_PWD_KEY
 import org.apache.linkis.engineconn.core.EngineConnObject
@@ -61,10 +63,11 @@ class SeatunnelSparkOnceCodeExecutor(override val id: Long,override protected va
         deployModeKey,params.getOrDefault(deployModeKey,"client"),
         configKey,generateExecFile(code))
     }else{
-       args = localArray(generateExecFile(code))
+       args = localArray(code)
     }
     System.setProperty("SEATUNNEL_HOME",System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue));
     Files.createSymbolicLink(new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/seatunnel").toPath,new File(SeatunnelEnvConfiguration.SEATUNNEL_HOME.getValue).toPath)
+    info(s"SEATUNNEL_HOME:${System.getProperty("datax.home")}")
     info(s"Execute SeatunnelSpark Process end args:${args.mkString(" ")}")
     LinkisSeatunnelSparkClient.main(args)
   }

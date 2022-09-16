@@ -3,6 +3,7 @@ package org.apache.linkis.engineconnplugin.seatunnel.executor
 import org.apache.commons.lang.StringUtils
 import org.apache.linkis.common.utils.Utils
 import org.apache.linkis.engineconn.common.conf.EngineConnConf.ENGINE_CONN_LOCAL_PATH_PWD_KEY
+import org.apache.linkis.engineconn.computation.executor.execute.EngineExecutionContext
 import org.apache.linkis.engineconn.core.EngineConnObject
 import org.apache.linkis.engineconn.once.executor.{OnceExecutorExecutionContext, OperableOnceExecutor}
 import org.apache.linkis.engineconnplugin.seatunnel.client.LinkisSeatunnelFlinkSQLClient
@@ -66,7 +67,7 @@ class SeatunnelFlinkSQLOnceCodeExecutor(override val id: Long, override protecte
       if(params.containsKey(variable)) args ++(Array(variable,params.get(variable)))
 
     }else{
-      args = localArray(generateExecFile(code))
+      args = localArray(code)
     }
     System.setProperty("SEATUNNEL_HOME",System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue));
     Files.createSymbolicLink(new File(System.getenv(ENGINE_CONN_LOCAL_PATH_PWD_KEY.getValue)+"/seatunnel").toPath,new File(SeatunnelEnvConfiguration.SEATUNNEL_HOME.getValue).toPath)
