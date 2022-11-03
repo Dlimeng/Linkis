@@ -601,6 +601,8 @@ See licenses/ for text of these licenses.
     (Apache License, version 2.0) presto-resource-group-managers (com.facebook.presto:presto-resource-group-managers:0.234 - https://github.com/prestodb/presto/presto-resource-group-managers)
     (Apache License, version 2.0) presto-spi (com.facebook.presto:presto-spi:0.234 - https://github.com/prestodb/presto/presto-spi)
     (Apache License, version 2.0) stats (com.facebook.airlift:stats:0.191 - https://github.com/airlift/airlift/tree/master/stats)
+    (Apache License, version 2.0) stats (com.clickhouse:clickhouse-jdbc:0.3.2-patch11 - https://github.com/ClickHouse/clickhouse-jdbc/tree/v0.3.2-patch11)
+    (Apache License, version 2.0) stats (org.postgresql:postgresql:42.3.1 - https://github.com/pgjdbc/pgjdbc/tree/REL42.3.1)
 
 ========================================================================
 Third party CDDL licenses
